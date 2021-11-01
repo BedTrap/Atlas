@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "cope-hack",
+  "version": "${version}",
+  "name": "CopeHack",
+  "description": "God tier private addon for Meteor Client.",
+  "authors": [
+    "murphy"
+  ],
+  "icon": "assets/copehack/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "meteor": [
+      "me.murphy.addon.n1gger"
+    ]
+  },
+  "mixins": [
+    "copehack.mixins.json"
+  ],
+  "depends": {
+    "java": ">=16",
+    "minecraft": ">=1.17",
+    "meteor-client": ">0.4.3"
+  }
+}
