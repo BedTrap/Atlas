@@ -1,8 +1,5 @@
-# Meteor Addon Template
+# n1gger++
 
-A template to allow easy usage of the Meteor Addon API.
+A addon for the Meteor Client with pvp/pve features.
 
-### How to use:  
-- Clone this project
-- Use this template to create new modules/commands
-- Run the mod with Meteor.
+gayshit
