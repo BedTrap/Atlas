@@ -5,7 +5,7 @@
  *  net.minecraft.network.packet.c2s.play.KeepAliveC2SPacket
  *  net.minecraft.client.network.PlayerListEntry
  */
-package me.murphy.addon.utils;
+package me.eureka.kiriyaga.addon.utils;
 
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import net.minecraft.network.packet.c2s.play.KeepAliveC2SPacket;

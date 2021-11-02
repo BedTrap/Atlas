@@ -7,19 +7,22 @@
  *  net.minecraft.network.packet.s2c.play.UpdateSelectedSlotS2CPacket
  *  net.minecraft.network.packet.c2s.play.UpdateSelectedSlotC2SPacket
  */
-package me.murphy.addon.utils;
+package me.eureka.kiriyaga.addon.enchansed_utils;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
+import me.eureka.kiriyaga.addon.utils.Manager;
+import me.eureka.kiriyaga.addon.utils.PacketUtils;
+import me.eureka.kiriyaga.addon.utils.TickUtils;
+import me.eureka.kiriyaga.addon.utils.Utils;
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.Packet;
 import net.minecraft.network.packet.s2c.play.UpdateSelectedSlotS2CPacket;
 import net.minecraft.network.packet.c2s.play.UpdateSelectedSlotC2SPacket;
 
-public class Slot2Utils
-extends Manager {
+public class Slot2Utils extends Manager {
     public static final Slot2Utils get = new Slot2Utils();
     private final AtomicInteger selected_slot = new AtomicInteger(0);
     private final AtomicLong update_time = new AtomicLong(-1L);

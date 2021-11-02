@@ -1,9 +1,9 @@
-package me.murphy.addon.modules;
+package me.eureka.kiriyaga.addon.modules;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import me.murphy.addon.n1gger;
+import me.eureka.kiriyaga.addon.Nigger;
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
 import meteordevelopment.meteorclient.renderer.ShapeMode;
@@ -44,7 +44,7 @@ public class NewChunks extends Module {
     private final Setting<Boolean> cfg_dev_msg = this.sg_dev.add(new BoolSetting.Builder().name("des-msg").description("...").defaultValue(false).build());
 
     public NewChunks() {
-        super(n1gger.Category, "chunk-trails", "Detects completely new chunks using certain traits of them");
+        super(Nigger.Category, "chunk-trails", "Detects completely new chunks using certain traits of them");
     }
 
     @EventHandler

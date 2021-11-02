@@ -6,7 +6,7 @@
  *  org.apache.logging.log4j.LogManager
  *  org.apache.logging.log4j.Logger
  */
-package me.murphy.addon.utils;
+package me.eureka.kiriyaga.addon.utils;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

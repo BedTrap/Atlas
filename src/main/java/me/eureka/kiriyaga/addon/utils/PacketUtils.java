@@ -12,7 +12,7 @@
  *  net.minecraft.network.packet.c2s.play.PlayerInteractBlockC2SPacket
  *  net.minecraft.network.packet.c2s.play.PlayerInteractItemC2SPacket
  */
-package me.murphy.addon.utils;
+package me.eureka.kiriyaga.addon.utils;
 
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import net.minecraft.network.Packet;

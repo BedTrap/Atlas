@@ -12,9 +12,12 @@
  *  net.minecraft.item.ItemStack
  *  net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen.CreativeScreenHandler
  */
-package me.murphy.addon.utils;
+package me.eureka.kiriyaga.addon.enchansed_utils;
 
 import java.util.Objects;
+
+import me.eureka.kiriyaga.addon.utils.Manager;
+import me.eureka.kiriyaga.addon.utils.Utils;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.ScreenHandler;
@@ -26,18 +29,18 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 public class Inv2Utils extends Manager {
     public static boolean CantClick() {
-        assert (Inv2Utils.mc.player != null);
-        return Inv2Utils.mc.player.currentScreenHandler instanceof CreativeInventoryScreen.CreativeScreenHandler;
+        assert (mc.player != null);
+        return mc.player.currentScreenHandler instanceof CreativeInventoryScreen.CreativeScreenHandler;
     }
 
     public static boolean CanClickOffhand() {
-        assert (Inv2Utils.mc.player != null);
-        return !(Inv2Utils.mc.player.currentScreenHandler instanceof GenericContainerScreenHandler);
+        assert (mc.player != null);
+        return !(mc.player.currentScreenHandler instanceof GenericContainerScreenHandler);
     }
 
     private static void ClickSlot(ScreenHandler handler, int id, int data, SlotActionType type) {
-        assert (Inv2Utils.mc.interactionManager != null);
-        Inv2Utils.mc.interactionManager.clickSlot(handler.syncId, id, data, type, (PlayerEntity) Inv2Utils.mc.player);
+        assert (mc.interactionManager != null);
+        mc.interactionManager.clickSlot(handler.syncId, id, data, type, (PlayerEntity) mc.player);
     }
 
     public static void SwapById(ScreenHandler handler, int id, int idx2) {
@@ -45,8 +48,8 @@ public class Inv2Utils extends Manager {
     }
 
     public static void SwapById(int id, int idx2) {
-        assert (Inv2Utils.mc.player != null);
-        Inv2Utils.SwapById(Inv2Utils.mc.player.currentScreenHandler, id, idx2);
+        assert (mc.player != null);
+        Inv2Utils.SwapById(mc.player.currentScreenHandler, id, idx2);
     }
 
     public static void Swap(int idx1, int idx2) {
@@ -54,8 +57,8 @@ public class Inv2Utils extends Manager {
     }
 
     public static void SwapWithOffhand(int idx) {
-        assert (Inv2Utils.mc.player != null);
-        Inv2Utils.SwapById((ScreenHandler) Inv2Utils.mc.player.playerScreenHandler, 45, idx);
+        assert (mc.player != null);
+        Inv2Utils.SwapById((ScreenHandler) mc.player.playerScreenHandler, 45, idx);
     }
 
     public static void SwapWithOffhandById(int id) {
@@ -91,8 +94,8 @@ public class Inv2Utils extends Manager {
     }
 
     public static void ClickById(int id) {
-        assert (Inv2Utils.mc.player != null);
-        Inv2Utils.ClickById(Inv2Utils.mc.player.currentScreenHandler, id);
+        assert (mc.player != null);
+        Inv2Utils.ClickById(mc.player.currentScreenHandler, id);
     }
 
     public static void Click(int idx) {
@@ -100,8 +103,8 @@ public class Inv2Utils extends Manager {
     }
 
     public static void ClickOffhand() {
-        assert (Inv2Utils.mc.player != null);
-        Inv2Utils.ClickById((ScreenHandler) Inv2Utils.mc.player.playerScreenHandler, 45);
+        assert (mc.player != null);
+        Inv2Utils.ClickById((ScreenHandler) mc.player.playerScreenHandler, 45);
     }
 
     public static void ShiftClickById(int id, ScreenHandler handler) {
@@ -109,8 +112,8 @@ public class Inv2Utils extends Manager {
     }
 
     public static void ShiftClickById(int id) {
-        assert (Inv2Utils.mc.player != null);
-        Inv2Utils.ShiftClickById(id, Inv2Utils.mc.player.currentScreenHandler);
+        assert (mc.player != null);
+        Inv2Utils.ShiftClickById(id, mc.player.currentScreenHandler);
     }
 
     public static void ShiftClick(int idx) {
@@ -137,8 +140,8 @@ public class Inv2Utils extends Manager {
     }
 
     public static int Idx2Id(int idx) {
-        assert (Inv2Utils.mc.player != null);
-        return Inv2Utils.Idx2Id(idx, Inv2Utils.mc.player.currentScreenHandler);
+        assert (mc.player != null);
+        return Inv2Utils.Idx2Id(idx, mc.player.currentScreenHandler);
     }
 
     private static boolean IsHotbar(int idx) {
@@ -150,13 +153,13 @@ public class Inv2Utils extends Manager {
     }
 
     public static boolean ClickBlank() {
-        if (Inv2Utils.mc.player == null) {
+        if (mc.player == null) {
             return false;
         }
-        if (Inv2Utils.mc.currentScreen != null) {
+        if (mc.currentScreen != null) {
             return false;
         }
-        if (Inv2Utils.mc.player.getInventory().getMainHandStack().isEmpty()) {
+        if (mc.player.getInventory().getMainHandStack().isEmpty()) {
             return false;
         }
         int blank = Inv2Utils.GetBlank();
@@ -170,8 +173,8 @@ public class Inv2Utils extends Manager {
     public static int amountInInv(Item item) {
         int quantity = 0;
         for (int i = 0; i < 45; ++i) {
-            assert (Inv2Utils.mc.player != null);
-            ItemStack stackInSlot = Inv2Utils.mc.player.getInventory().getStack(i);
+            assert (mc.player != null);
+            ItemStack stackInSlot = mc.player.getInventory().getStack(i);
             if (stackInSlot.getItem() != item) continue;
             quantity += stackInSlot.getCount();
         }
@@ -180,8 +183,8 @@ public class Inv2Utils extends Manager {
 
     public static int amount(Item item) {
         int quantity = 0;
-        for (int i = 0; i < Objects.requireNonNull(Inv2Utils.mc.player).currentScreenHandler.slots.size(); ++i) {
-            ItemStack stackInSlot = Inv2Utils.mc.player.getInventory().getStack(i);
+        for (int i = 0; i < Objects.requireNonNull(mc.player).currentScreenHandler.slots.size(); ++i) {
+            ItemStack stackInSlot = mc.player.getInventory().getStack(i);
             if (stackInSlot.getItem() != item) continue;
             quantity += stackInSlot.getCount();
         }
@@ -189,39 +192,43 @@ public class Inv2Utils extends Manager {
     }
 
     public static int FindItemInInv(Item item) {
-        assert (Inv2Utils.mc.player != null);
+        assert (mc.player != null);
         for (int i = 0; i < 36; ++i) {
-            if (Inv2Utils.mc.player.getInventory().getStack(i).getItem() != item) continue;
+            if (mc.player.getInventory().getStack(i).getItem() != item) continue;
             return i;
         }
         return -1;
     }
 
     public static int FindItemInHotbar(Item item) {
-        assert (Inv2Utils.mc.player != null);
+        assert (mc.player != null);
         for (int i = 0; i < 9; ++i) {
-            if (Inv2Utils.mc.player.getInventory().getStack(i).getItem() != item) continue;
+            if (mc.player.getInventory().getStack(i).getItem() != item) continue;
             return i;
         }
         return -1;
     }
 
     public static boolean HotbarHasBlank() {
-        assert (Inv2Utils.mc.player != null);
+        assert (mc.player != null);
         for (int i = 0; i < 9; ++i) {
-            if (!Inv2Utils.mc.player.getInventory().getStack(i).isEmpty()) continue;
+            if (!mc.player.getInventory().getStack(i).isEmpty()) continue;
             return true;
         }
         return false;
     }
 
     public static int GetBlank() {
-        assert (Inv2Utils.mc.player != null);
+        assert (mc.player != null);
         for (int i = 0; i < 45; ++i) {
-            if (!Inv2Utils.mc.player.getInventory().getStack(i).isEmpty()) continue;
+            if (!mc.player.getInventory().getStack(i).isEmpty()) continue;
             return i;
         }
         return -1;
+    }
+
+    public static void updateSlot(int newSlot) {
+        mc.player.getInventory().selectedSlot = newSlot;
     }
 }
 

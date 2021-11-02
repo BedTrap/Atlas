@@ -1,4 +1,4 @@
-package me.murphy.addon.mixins;
+package me.eureka.kiriyaga.addon.mixins;
 
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import net.minecraft.text.BaseText;
@@ -15,8 +15,8 @@ public class ChatUtilsMixin {
     private static void getPrefix(CallbackInfoReturnable<BaseText> cir) {
         BaseText logo = new LiteralText("n1gger++");
         BaseText prefix = new LiteralText("");
-        logo.setStyle(logo.getStyle().withFormatting(Formatting.BLACK));
-        prefix.setStyle(prefix.getStyle().withFormatting(Formatting.GRAY));
+        logo.setStyle(logo.getStyle().withFormatting(Formatting.GRAY));
+        prefix.setStyle(prefix.getStyle().withFormatting(Formatting.DARK_GRAY));
         prefix.append("/");
         prefix.append(logo);
         prefix.append("/ ");

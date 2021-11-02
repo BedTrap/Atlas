@@ -2,24 +2,25 @@
   "schemaVersion": 1,
   "id": "cope-hack",
   "version": "${version}",
-  "name": "CopeHack",
-  "description": "God tier private addon for Meteor Client.",
+  "name": "n1gger++",
+  "description": "God tier addon for Meteor Client.",
   "authors": [
-    "murphy"
+    "EurekaEffect",
+    "Kiriyaga"
   ],
-  "icon": "assets/copehack/icon.png",
+  "icon": "assets/nigger/icon.png",
   "environment": "client",
   "entrypoints": {
     "meteor": [
-      "me.murphy.addon.n1gger"
+      "me.eureka.kiriyaga.addon.Nigger"
     ]
   },
   "mixins": [
-    "copehack.mixins.json"
+    "nigger.mixins.json"
   ],
   "depends": {
     "java": ">=16",
     "minecraft": ">=1.17",
-    "meteor-client": ">0.4.3"
+    "meteor-client": "*"
   }
 }

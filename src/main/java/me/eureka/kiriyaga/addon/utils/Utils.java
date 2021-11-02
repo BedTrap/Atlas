@@ -12,10 +12,11 @@
  *  net.minecraft.block.BlockState
  *  net.minecraft.util.math.MathHelper
  */
-package me.murphy.addon.utils;
+package me.eureka.kiriyaga.addon.utils;
 
 import java.util.ArrayList;
 
+import me.eureka.kiriyaga.addon.enchansed_utils.Slot2Utils;
 import meteordevelopment.meteorclient.mixininterface.IVec3d;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -41,23 +42,23 @@ public class Utils
     }
 
     public static boolean IsPartOfHole(BlockPos bpos) {
-        assert (Utils.mc.world != null);
+        assert (mc.world != null);
         ArrayList entities = new ArrayList();
-        entities.addAll(Utils.mc.world.getOtherEntities((Entity) Utils.mc.player, new Box(bpos.add(1, 0, 0))));
-        entities.addAll(Utils.mc.world.getOtherEntities((Entity) Utils.mc.player, new Box(bpos.add(-1, 0, 0))));
-        entities.addAll(Utils.mc.world.getOtherEntities((Entity) Utils.mc.player, new Box(bpos.add(0, 0, 1))));
-        entities.addAll(Utils.mc.world.getOtherEntities((Entity) Utils.mc.player, new Box(bpos.add(0, 0, -1))));
+        entities.addAll(mc.world.getOtherEntities((Entity) mc.player, new Box(bpos.add(1, 0, 0))));
+        entities.addAll(mc.world.getOtherEntities((Entity) mc.player, new Box(bpos.add(-1, 0, 0))));
+        entities.addAll(mc.world.getOtherEntities((Entity) mc.player, new Box(bpos.add(0, 0, 1))));
+        entities.addAll(mc.world.getOtherEntities((Entity) mc.player, new Box(bpos.add(0, 0, -1))));
         return entities.stream().anyMatch(e -> e instanceof PlayerEntity && Utils.GetFeetCenter((LivingEntity)e).getY() == bpos.getY());
     }
 
     public static boolean IsMySurroundBlock(BlockPos pos) {
-        assert (Utils.mc.world != null);
+        assert (mc.world != null);
         ArrayList entities = new ArrayList();
-        entities.addAll(Utils.mc.world.getOtherEntities(null, new Box(pos.add(1, 0, 0))));
-        entities.addAll(Utils.mc.world.getOtherEntities(null, new Box(pos.add(-1, 0, 0))));
-        entities.addAll(Utils.mc.world.getOtherEntities(null, new Box(pos.add(0, 0, 1))));
-        entities.addAll(Utils.mc.world.getOtherEntities(null, new Box(pos.add(0, 0, -1))));
-        return entities.stream().anyMatch(e -> e.equals((Object) Utils.mc.player));
+        entities.addAll(mc.world.getOtherEntities(null, new Box(pos.add(1, 0, 0))));
+        entities.addAll(mc.world.getOtherEntities(null, new Box(pos.add(-1, 0, 0))));
+        entities.addAll(mc.world.getOtherEntities(null, new Box(pos.add(0, 0, 1))));
+        entities.addAll(mc.world.getOtherEntities(null, new Box(pos.add(0, 0, -1))));
+        return entities.stream().anyMatch(e -> e.equals((Object) mc.player));
     }
 
     public static Vec3d BlockPosCenter(BlockPos block) {
@@ -93,22 +94,22 @@ public class Utils
     }
 
     public static int SelectedSlotSafe() {
-        assert (Utils.mc.player != null);
+        assert (mc.player != null);
         int _selected_slot = Slot2Utils.get.GetSelectedSlot();
         if (_selected_slot == -1) {
-            Utils.mc.player.getInventory().selectedSlot = 0;
+            mc.player.getInventory().selectedSlot = 0;
             return 0;
         }
         return _selected_slot;
     }
 
     public static void UpdateSelectedSlot(int slot) {
-        assert (Utils.mc.player != null);
+        assert (mc.player != null);
         if (slot != Utils.SelectedSlot()) {
             Slot2Utils.get.UpdateSelectedSlot(slot);
         } else {
             Slot2Utils.get.UpdateSwitchBackTimer();
-            Utils.mc.player.getInventory().selectedSlot = slot;
+            mc.player.getInventory().selectedSlot = slot;
         }
     }
 
@@ -117,8 +118,8 @@ public class Utils
 //    }
 
     public static Entity GetWorldEntity(Entity entity) {
-        assert (Utils.mc.world != null);
-        return Utils.mc.world.getEntityById(entity.getId());
+        assert (mc.world != null);
+        return mc.world.getEntityById(entity.getId());
     }
 
 //    public static void DevLog(Module module, String text) {
@@ -128,20 +129,20 @@ public class Utils
 //    }
 
     public static Vec3d GetBestBlockHitPos(BlockPos pos) {
-        assert (Utils.mc.player != null);
-        double x = MathHelper.clamp((double)(Utils.mc.player.getX() - (double)pos.getX()), (double)0.0, (double)1.0);
-        double y = MathHelper.clamp((double)(Utils.mc.player.getY() - (double)pos.getY()), (double)0.0, (double)1.0);
-        double z = MathHelper.clamp((double)(Utils.mc.player.getZ() - (double)pos.getZ()), (double)0.0, (double)1.0);
+        assert (mc.player != null);
+        double x = MathHelper.clamp((double)(mc.player.getX() - (double)pos.getX()), (double)0.0, (double)1.0);
+        double y = MathHelper.clamp((double)(mc.player.getY() - (double)pos.getY()), (double)0.0, (double)1.0);
+        double z = MathHelper.clamp((double)(mc.player.getZ() - (double)pos.getZ()), (double)0.0, (double)1.0);
         Vec3d hitPos = new Vec3d(0.0, 0.0, 0.0);
         ((IVec3d)hitPos).set((double)pos.getX() + x, (double)pos.getY() + y, (double)pos.getZ() + z);
         return hitPos;
     }
 
     public static Vec3d GetBestBedHitPos(BlockPos pos) {
-        assert (Utils.mc.player != null);
-        double x = MathHelper.clamp((double)(Utils.mc.player.getX() - (double)pos.getX()), (double)0.0, (double)1.0);
-        double y = MathHelper.clamp((double)(Utils.mc.player.getY() - (double)pos.getY()), (double)0.0, (double)0.6);
-        double z = MathHelper.clamp((double)(Utils.mc.player.getZ() - (double)pos.getZ()), (double)0.0, (double)1.0);
+        assert (mc.player != null);
+        double x = MathHelper.clamp((double)(mc.player.getX() - (double)pos.getX()), (double)0.0, (double)1.0);
+        double y = MathHelper.clamp((double)(mc.player.getY() - (double)pos.getY()), (double)0.0, (double)0.6);
+        double z = MathHelper.clamp((double)(mc.player.getZ() - (double)pos.getZ()), (double)0.0, (double)1.0);
         Vec3d hitPos = new Vec3d(0.0, 0.0, 0.0);
         ((IVec3d)hitPos).set((double)pos.getX() + x, (double)pos.getY() + y, (double)pos.getZ() + z);
         return hitPos;

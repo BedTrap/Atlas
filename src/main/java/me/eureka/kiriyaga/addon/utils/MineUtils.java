@@ -21,7 +21,7 @@
  *  net.minecraft.util.hit.BlockHitResult
  *  net.minecraft.network.packet.s2c.play.PlayerActionResponseS2CPacket
  */
-package me.murphy.addon.utils;
+package me.eureka.kiriyaga.addon.utils;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import net.minecraft.util.math.BlockPos;

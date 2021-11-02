@@ -30,7 +30,7 @@
  *  net.minecraft.world.RaycastContext$class_3960
  *  net.minecraft.entity.attribute.EntityAttributes
  */
-package me.murphy.addon.utils;
+package me.eureka.kiriyaga.addon.utils;
 
 import com.google.common.collect.Streams;
 import meteordevelopment.meteorclient.mixininterface.IExplosion;
@@ -83,12 +83,12 @@ public class CrystalUtils extends Manager {
     }
 
     public static boolean IsSafeBlockForFort(Block block) {
-        assert (CrystalUtils.mc.world != null);
-        return block.getBlastResistance() >= 600.0f && (CrystalUtils.mc.world.getDimension().isRespawnAnchorWorking() || !block.equals(Blocks.RESPAWN_ANCHOR));
+        assert (mc.world != null);
+        return block.getBlastResistance() >= 600.0f && (mc.world.getDimension().isRespawnAnchorWorking() || !block.equals(Blocks.RESPAWN_ANCHOR));
     }
 
     public static double GetDmgByExplosionDmg(double base_damage, LivingEntity entity, Vec3d source, float power) {
-        if (Objects.requireNonNull(CrystalUtils.mc.world).getDifficulty() == Difficulty.PEACEFUL) {
+        if (Objects.requireNonNull(mc.world).getDifficulty() == Difficulty.PEACEFUL) {
             return 0.0;
         }
         double resistance_coefficient = 1.0;
@@ -99,7 +99,7 @@ public class CrystalUtils extends Manager {
         if (damage <= 0.0) {
             return 0.0;
         }
-        switch (Objects.requireNonNull(CrystalUtils.mc.world).getDifficulty()) {
+        switch (Objects.requireNonNull(mc.world).getDifficulty()) {
             case EASY: {
                 if (!(damage > 2.0)) break;
                 damage = damage * 0.5 + 1.0;
@@ -121,7 +121,7 @@ public class CrystalUtils extends Manager {
     }
 
     public static double GetCryDmg(LivingEntity entity, Vec3d crystal) {
-        if (Objects.requireNonNull(CrystalUtils.mc.world).getDifficulty() == Difficulty.PEACEFUL) {
+        if (Objects.requireNonNull(mc.world).getDifficulty() == Difficulty.PEACEFUL) {
             return 0.0;
         }
         double resistance_coefficient = 1.0;
@@ -132,7 +132,7 @@ public class CrystalUtils extends Manager {
         if (damage <= 0.0) {
             return 0.0;
         }
-        switch (Objects.requireNonNull(CrystalUtils.mc.world).getDifficulty()) {
+        switch (Objects.requireNonNull(mc.world).getDifficulty()) {
             case EASY: {
                 if (!(damage > 2.0)) break;
                 damage = damage * 0.5 + 1.0;
@@ -258,30 +258,30 @@ public class CrystalUtils extends Manager {
 
     public static double GetHealthReduction() {
         double fall_dmg;
-        assert (CrystalUtils.mc.world != null);
-        assert (CrystalUtils.mc.player != null);
-        if (CrystalUtils.mc.player.getAbilities().creativeMode) {
+        assert (mc.world != null);
+        assert (mc.player != null);
+        if (mc.player.getAbilities().creativeMode) {
             return 0.0;
         }
         AtomicReference<Double> best_dmg = new AtomicReference<Double>(0.0);
         CrystalUtils.GetCrystalStream().forEach(entity -> {
-            double cry_dmg = CrystalUtils.GetCryDmg((LivingEntity) CrystalUtils.mc.player, entity.getPos());
+            double cry_dmg = CrystalUtils.GetCryDmg((LivingEntity) mc.player, entity.getPos());
             if (cry_dmg > (Double)best_dmg.get()) {
                 best_dmg.set(cry_dmg);
             }
         });
-        for (Entity entity2 : CrystalUtils.mc.world.getEntities()) {
+        for (Entity entity2 : mc.world.getEntities()) {
             double sword_dmg;
-            if (!(entity2 instanceof PlayerEntity) || !Friends.get().shouldAttack((PlayerEntity)entity2) || !(CrystalUtils.mc.player.getPos().squaredDistanceTo(entity2.getPos()) <= 36.0) || !((sword_dmg = DamageUtils.getSwordDamage((PlayerEntity)entity2, true)) > best_dmg.get())) continue;
+            if (!(entity2 instanceof PlayerEntity) || !Friends.get().shouldAttack((PlayerEntity)entity2) || !(mc.player.getPos().squaredDistanceTo(entity2.getPos()) <= 36.0) || !((sword_dmg = DamageUtils.getSwordDamage((PlayerEntity)entity2, true)) > best_dmg.get())) continue;
             best_dmg.set(sword_dmg);
         }
-        if (CrystalUtils.mc.player.fallDistance > 3.0f && (fall_dmg = (double) CrystalUtils.mc.player.fallDistance * 0.5) > best_dmg.get()) {
+        if (mc.player.fallDistance > 3.0f && (fall_dmg = (double) mc.player.fallDistance * 0.5) > best_dmg.get()) {
             best_dmg.set(fall_dmg);
         }
         if (!mc.world.getDimension().isBedWorking()) {
             for (BlockEntity blockEntity : meteordevelopment.meteorclient.utils.Utils.blockEntities()) {
                 double bed_dmg;
-                if (!(blockEntity instanceof BedBlockEntity) || !((bed_dmg = DamageUtils.bedDamage((LivingEntity) CrystalUtils.mc.player, new Vec3d((double)blockEntity.getPos().getX() + 0.5, (double)blockEntity.getPos().getY() + 0.5, (double)blockEntity.getPos().getZ() + 0.5))) > best_dmg.get())) continue;
+                if (!(blockEntity instanceof BedBlockEntity) || !((bed_dmg = DamageUtils.bedDamage((LivingEntity) mc.player, new Vec3d((double)blockEntity.getPos().getX() + 0.5, (double)blockEntity.getPos().getY() + 0.5, (double)blockEntity.getPos().getZ() + 0.5))) > best_dmg.get())) continue;
                 best_dmg.set(bed_dmg);
             }
         }
@@ -289,24 +289,24 @@ public class CrystalUtils extends Manager {
     }
 
     public static Stream<EndCrystalEntity> GetCrystalStream() {
-        assert (CrystalUtils.mc.world != null);
-        return Streams.stream((Iterable) CrystalUtils.mc.world.getEntities()).filter(e -> e instanceof EndCrystalEntity).map(e -> (EndCrystalEntity)e);
+        assert (mc.world != null);
+        return Streams.stream((Iterable) mc.world.getEntities()).filter(e -> e instanceof EndCrystalEntity).map(e -> (EndCrystalEntity)e);
     }
 
     public static boolean CanPlaceCrystal(BlockPos pos) {
-        assert (CrystalUtils.mc.world != null);
-        BlockState state = CrystalUtils.mc.world.getBlockState(pos);
+        assert (mc.world != null);
+        BlockState state = mc.world.getBlockState(pos);
         if (!state.isOf(Blocks.OBSIDIAN) && !state.isOf(Blocks.BEDROCK)) {
             return false;
         }
         BlockPos boost = pos.add(0, 1, 0);
-        if (!CrystalUtils.mc.world.isAir(boost)) {
+        if (!mc.world.isAir(boost)) {
             return false;
         }
         double d = boost.getX();
         double e = boost.getY();
         double f = boost.getZ();
-        return CrystalUtils.mc.world.getOtherEntities(null, new Box(d, e, f, d + 1.0, e + 2.0, f + 1.0)).isEmpty();
+        return mc.world.getOtherEntities(null, new Box(d, e, f, d + 1.0, e + 2.0, f + 1.0)).isEmpty();
     }
 
     private static class ExposureInfo {

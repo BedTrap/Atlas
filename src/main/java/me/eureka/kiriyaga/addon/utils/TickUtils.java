@@ -5,7 +5,7 @@
  *  net.minecraft.network.packet.s2c.play.WorldTimeUpdateS2CPacket
  *  net.minecraft.util.math.MathHelper
  */
-package me.murphy.addon.utils;
+package me.eureka.kiriyaga.addon.utils;
 
 import net.minecraft.network.packet.s2c.play.WorldTimeUpdateS2CPacket;
 import net.minecraft.util.math.MathHelper;
