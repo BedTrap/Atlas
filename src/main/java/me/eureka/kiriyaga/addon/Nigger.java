@@ -28,7 +28,7 @@ public class Nigger extends MeteorAddon {
     @Override
     public void onInitialize() {
         // Meteor Addon System
-        MeteorClient.EVENT_BUS.registerLambdaFactory("me.murphy.addon", (lookupInMethod, klass) ->
+        MeteorClient.EVENT_BUS.registerLambdaFactory("me.eureka.kiriyaga.addon", (lookupInMethod, klass) ->
             (MethodHandles.Lookup) lookupInMethod.invoke(null, klass, MethodHandles.lookup()));
 
         Block2Utils.init();
