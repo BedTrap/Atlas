@@ -1,26 +1,29 @@
 {
   "schemaVersion": 1,
-  "id": "cope-hack",
+  "id": "nigger-addon",
   "version": "${version}",
   "name": "n1gger++",
-  "description": "God tier addon for Meteor Client.",
+  "description": "The best paid addon for Meteor Client.",
   "authors": [
     "EurekaEffect",
-    "Kiriyaga"
+    "Kirigaya"
   ],
   "icon": "assets/nigger/icon.png",
   "environment": "client",
   "entrypoints": {
     "meteor": [
-      "me.eureka.kiriyaga.addon.Nigger"
+      "me.bedtrapteam.addon.Nigger"
     ]
   },
   "mixins": [
     "nigger.mixins.json"
   ],
+  "custom": {
+    "meteor-client:color": "225,25,25"
+  },
   "depends": {
     "java": ">=16",
-    "minecraft": ">=1.17",
+    "minecraft": ">=@mc_version@",
     "meteor-client": "*"
   }
 }
