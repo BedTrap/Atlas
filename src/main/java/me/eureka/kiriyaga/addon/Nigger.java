@@ -3,9 +3,7 @@ package me.eureka.kiriyaga.addon;
 import club.minnced.discord.rpc.DiscordEventHandlers;
 import club.minnced.discord.rpc.DiscordRPC;
 import club.minnced.discord.rpc.DiscordRichPresence;
-import me.eureka.kiriyaga.addon.modules.BedBomb;
-import me.eureka.kiriyaga.addon.modules.NewChunks;
-import me.eureka.kiriyaga.addon.modules.Surround;
+import me.eureka.kiriyaga.addon.modules.*;
 import me.eureka.kiriyaga.addon.enchansed_utils.Block2Utils;
 import meteordevelopment.meteorclient.MeteorAddon;
 import meteordevelopment.meteorclient.MeteorClient;
@@ -14,6 +12,9 @@ import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.utils.misc.Placeholders;
 import net.minecraft.item.Items;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 
 import java.lang.invoke.MethodHandles;
 
@@ -23,6 +24,10 @@ public class Nigger extends MeteorAddon {
     private static final DiscordRichPresence rpc = new DiscordRichPresence();
     private static final DiscordRPC instance = DiscordRPC.INSTANCE;
 
+    public static final Identifier HITSOUND_ID = new Identifier("nigger:hitsound");
+    public static SoundEvent HITSOUND = new SoundEvent(HITSOUND_ID);
+
+
     public static final Category Category = new Category("N1GGER++", Items.WITHER_SKELETON_SKULL.getDefaultStack());
 
     @Override
@@ -31,11 +36,21 @@ public class Nigger extends MeteorAddon {
         MeteorClient.EVENT_BUS.registerLambdaFactory("me.murphy.addon", (lookupInMethod, klass) ->
             (MethodHandles.Lookup) lookupInMethod.invoke(null, klass, MethodHandles.lookup()));
 
-        Block2Utils.init();
+        // Sounds
+        Registry.register(Registry.SOUND_EVENT, HITSOUND_ID, HITSOUND);
+
+        //Block2Utils.init();
 
         add_module(
-            new NewChunks(),
+            new AutoEz(),
+            new AutoLogin(),
             new BedBomb(),
+            new CevBreaker(),
+            new CSGO(),
+            new ElytraHelper(),
+            new NewChunks(),
+            new OneTap(),
+            new PistonAura(),
             new Surround()
         );
 

@@ -12,7 +12,7 @@ group = project.maven_group
 
 repositories {
     maven {
-        name = "meteor-maven-snapshots"
+        name = "meteor-maven"
         url = "https://maven.meteordev.org/snapshots"
     }
 }
