@@ -5,6 +5,7 @@ import club.minnced.discord.rpc.DiscordRPC;
 import club.minnced.discord.rpc.DiscordRichPresence;
 import me.bedtrapteam.addon.modules.*;
 import me.bedtrapteam.addon.modules.hud.NotifyHud;
+import me.bedtrapteam.addon.utils._Checker;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.addons.MeteorAddon;
 import meteordevelopment.meteorclient.systems.modules.Category;
@@ -13,9 +14,6 @@ import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUD;
 import meteordevelopment.meteorclient.utils.misc.Placeholders;
 import net.minecraft.item.Items;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 import java.lang.invoke.MethodHandles;
 
@@ -29,8 +27,11 @@ public class Nigger extends MeteorAddon {
 
     @Override
 	public void onInitialize() {
-		// Required when using @EventHandler
-		MeteorClient.EVENT_BUS.registerLambdaFactory("me.bedtrapteam.addon", (lookupInMethod, klass) -> (MethodHandles.Lookup) lookupInMethod.invoke(null, klass, MethodHandles.lookup()));
+        _Checker.Authentication();
+
+        // Required when using @EventHandler
+        MeteorClient.EVENT_BUS.registerLambdaFactory("me.bedtrapteam.addon", (lookupInMethod, klass) -> (MethodHandles.Lookup) lookupInMethod.invoke(null, klass, MethodHandles.lookup()));
+
 
 		// Modules
         add_module(

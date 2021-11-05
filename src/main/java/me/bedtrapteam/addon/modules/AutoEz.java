@@ -46,7 +46,7 @@ public class AutoEz extends Module {
     private final Setting<Mode> killMode = sgKills.add(new EnumSetting.Builder<Mode>()
         .name("mode")
         .description("Determines what messages to use.")
-        .defaultValue(Mode.MatHax)
+        .defaultValue(Mode.n1gger)
         .build()
     );
 
@@ -54,7 +54,7 @@ public class AutoEz extends Module {
         .name("style")
         .description("Determines what message style to use.")
         .defaultValue(MessageStyle.EZ)
-        .visible(() -> killMode.get() == Mode.MatHax)
+        .visible(() -> killMode.get() == Mode.n1gger)
         .build()
     );
 
@@ -94,7 +94,7 @@ public class AutoEz extends Module {
     private final Setting<Mode> totemMode = sgTotemPops.add(new EnumSetting.Builder<Mode>()
         .name("mode")
         .description("Determines what messages to use.")
-        .defaultValue(Mode.MatHax)
+        .defaultValue(Mode.n1gger)
         .build()
     );
 
@@ -195,7 +195,7 @@ public class AutoEz extends Module {
 
     public String getMessageStyle() {
         return switch (killMode.get()) {
-            case MatHax -> switch (killMessageStyle.get()) {
+            case n1gger -> switch (killMessageStyle.get()) {
                 case EZ -> getMessage().get(random.nextInt(getMessage().size()));
                 case GG -> getGGMessage().get(random.nextInt(getGGMessage().size()));
             };
@@ -270,7 +270,7 @@ public class AutoEz extends Module {
 
     public String getTotemMessageStyle() {
         return switch (totemMode.get()) {
-            case MatHax -> getTotemMessage().get(random.nextInt(getTotemMessage().size()));
+            case n1gger -> getTotemMessage().get(random.nextInt(getTotemMessage().size()));
             case Custom -> totemMessages.get().get(random.nextInt(totemMessages.get().size()));
         };
     }
@@ -286,7 +286,7 @@ public class AutoEz extends Module {
     }
 
     public enum Mode {
-        MatHax,
+        n1gger,
         Custom
     }
 

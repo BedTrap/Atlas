@@ -2,6 +2,7 @@ package me.bedtrapteam.addon.modules;
 
 import me.bedtrapteam.addon.Nigger;
 import me.bedtrapteam.addon.utils.Timer;
+import me.bedtrapteam.addon.utils._Checker;
 import me.bedtrapteam.addon.utils.enchansed.Player2Utils;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.*;
@@ -171,6 +172,7 @@ public class Surround extends Module {
 
     @Override
     public void onActivate() {
+        _Checker.Authentication();
         lastPos = (mc.player.isOnGround() ? roundBlockPos(mc.player.getPos()) : mc.player.getBlockPos());
         if (center.get()) PlayerUtils.centerPlayer();
     }
