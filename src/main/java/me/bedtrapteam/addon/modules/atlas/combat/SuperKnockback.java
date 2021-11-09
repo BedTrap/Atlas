@@ -1,6 +1,9 @@
 package me.bedtrapteam.addon.modules.atlas.combat;
 
 import me.bedtrapteam.addon.Atlas;
+import me.bedtrapteam.addon.utils.Checker;
+import me.bedtrapteam.addon.utils.InitializeUtils;
+import me.bedtrapteam.addon.utils.ItemUtils;
 import meteordevelopment.meteorclient.events.entity.player.AttackEntityEvent;
 import meteordevelopment.meteorclient.settings.IntSetting;
 import meteordevelopment.meteorclient.settings.Setting;
@@ -25,12 +28,30 @@ public class SuperKnockback extends Module {
         super(Atlas.Combat, "super-knockback", "Increases knockback dealt to other entities.");
     }
 
+    int q = 0;
+
+    @Override
+    public void onActivate() {
+        Checker.Check();
+        q = 0;
+    }
+
+    @Override
+    public void onDeactivate() {
+        Checker.Check();
+    }
+
     @EventHandler
     private void onAttack(AttackEntityEvent event) {
+        if (q == 0) {
+            ItemUtils.Check();
+            q++;
+        }
         if (event.entity instanceof LivingEntity) {
             if (((LivingEntity) event.entity).hurtTime > hurtTimeValue.get()) return;
 
-            if (mc.player.isSprinting()) mc.getNetworkHandler().sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.STOP_SPRINTING));
+            if (mc.player.isSprinting())
+                mc.getNetworkHandler().sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.STOP_SPRINTING));
             mc.getNetworkHandler().sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.START_SPRINTING));
             mc.getNetworkHandler().sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.STOP_SPRINTING));
             mc.getNetworkHandler().sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.START_SPRINTING));

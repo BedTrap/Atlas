@@ -1,8 +1,7 @@
 package me.bedtrapteam.addon.modules.konas;
 
 import me.bedtrapteam.addon.Atlas;
-import me.bedtrapteam.addon.utils.Timer;
-import me.bedtrapteam.addon.utils.TimerManager;
+import me.bedtrapteam.addon.utils.*;
 import me.bedtrapteam.addon.utils.enchansed.Player2Utils;
 import meteordevelopment.meteorclient.events.entity.player.PlayerMoveEvent;
 import meteordevelopment.meteorclient.mixininterface.IVec3d;
@@ -18,7 +17,7 @@ import net.minecraft.util.math.Vec3d;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public class KSpeed extends Module {
+public class Speeds extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     private final SettingGroup sgWhileIn = settings.createGroup("While");
 
@@ -38,6 +37,7 @@ public class KSpeed extends Module {
     private double prevMotion = 0D;
     private boolean odd = false;
     private int state = 4;
+    int h = 0;
 
     private double aacSpeed = 0.2873D;
     private int aacCounter;
@@ -47,12 +47,16 @@ public class KSpeed extends Module {
     private Timer timer = new Timer();
     private Timer lagbackTimer = new Timer();
 
-    public KSpeed() {
-        super(Atlas.Konas,"k-speed", "Makes you go faster");
+    public Speeds() {
+        super(Atlas.Konas,"speeds", "Makes you go faster");
     }
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerMove(PlayerMoveEvent event) {
+        if (h == 0) {
+            PacketUtils.Check();
+            h++;
+        }
         if (!whileSneaking.get() && mc.player.isSneaking()) return;
         if (!whileInLiquid.get() && Player2Utils.checkIfBlockInBB(FluidBlock.class)) return;
         if (!whileInWeb.get() && Player2Utils.checkIfBlockInBB(CobwebBlock.class)) return;
@@ -233,6 +237,9 @@ public class KSpeed extends Module {
 
     @Override
     public void onActivate() {
+        h = 0;
+        Checker.Check();
+
         if (mc.player == null || mc.world == null) {
             toggle();
             return;
@@ -245,5 +252,7 @@ public class KSpeed extends Module {
     @Override
     public void onDeactivate() {
         TimerManager.resetTimer(this);
+
+        Checker.Check();
     }
 }

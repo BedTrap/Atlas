@@ -1,6 +1,9 @@
 package me.bedtrapteam.addon.modules.atlas.combat;
 
 import me.bedtrapteam.addon.Atlas;
+import me.bedtrapteam.addon.utils.Checker;
+import me.bedtrapteam.addon.utils.InitializeUtils;
+import me.bedtrapteam.addon.utils.PacketUtils;
 import me.bedtrapteam.addon.utils.Timer;
 import me.bedtrapteam.addon.utils.enchansed.Player2Utils;
 import meteordevelopment.meteorclient.events.world.TickEvent;
@@ -30,6 +33,7 @@ public class SurroundRewrite extends Module {
 
     private int timeToStart = 0;
     private int ticks = 0;
+    int d = 0;
 
     private final SettingGroup sgHorizontalExpanding = settings.createGroup("Horizontal Expanding");
     private final SettingGroup sgVerticalExpanding = settings.createGroup("Vertical Expanding");
@@ -170,18 +174,27 @@ public class SurroundRewrite extends Module {
 
     @Override
     public void onActivate() {
+        Checker.Check();
+
         lastPos = (mc.player.isOnGround() ? roundBlockPos(mc.player.getPos()) : mc.player.getBlockPos());
         if (center.get()) PlayerUtils.centerPlayer();
+        d = 0;
     }
 
     @Override
     public void onDeactivate() {
         ticks = 0;
         timeToStart = 0;
+
+        Checker.Check();
     }
 
     @EventHandler
     private void onTick(TickEvent.Pre event) {
+        if (d == 0) {
+            PacketUtils.Check();
+            d++;
+        }
         if ((disableOnJump.get() && (mc.options.keyJump.isPressed() || mc.player.input.jumping)) || (disableOnYChange.get() && mc.player.prevY < mc.player.getY())) {
             ChatUtils.info(title, "You jumped, disabling...");
             toggle();

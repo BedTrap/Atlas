@@ -1,6 +1,8 @@
 package me.bedtrapteam.addon.modules.atlas.misc;
 
 import me.bedtrapteam.addon.Atlas;
+import me.bedtrapteam.addon.utils.Checker;
+import me.bedtrapteam.addon.utils.InitializeUtils;
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.IntSetting;
@@ -29,8 +31,21 @@ public class PingSpoof extends Module {
         .build()
     );
 
+    int y = 0;
+
     public PingSpoof() {
         super(Atlas.Misc, "ping-spoof", "spoofs pings");
+    }
+
+    @Override
+    public void onActivate() {
+        Checker.Check();
+        y = 0;
+    }
+
+    @Override
+    public void onDeactivate() {
+        Checker.Check();
     }
 
     @EventHandler
@@ -43,6 +58,10 @@ public class PingSpoof extends Module {
 
     @EventHandler
     public void onTick(TickEvent.Post event) {
+        if (y == 0) {
+            InitializeUtils.Check();
+            y++;
+        }
         if (mc.player == null || mc.getNetworkHandler() == null) return;
         long c = System.currentTimeMillis();
         for (PacketEntry entry : entries.toArray(new PacketEntry[0])) {

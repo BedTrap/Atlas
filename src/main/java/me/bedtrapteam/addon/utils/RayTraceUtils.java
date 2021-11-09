@@ -6,7 +6,7 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
 
-public class RayTraceHelper {
+public class RayTraceUtils {
     private static MinecraftClient mc = MinecraftClient.getInstance();
 
     public static boolean canSee(Entity entity) {

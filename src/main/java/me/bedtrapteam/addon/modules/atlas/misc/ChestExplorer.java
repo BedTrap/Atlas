@@ -1,6 +1,9 @@
 package me.bedtrapteam.addon.modules.atlas.misc;
 
 import me.bedtrapteam.addon.Atlas;
+import me.bedtrapteam.addon.utils.Checker;
+import me.bedtrapteam.addon.utils.InitializeUtils;
+import me.bedtrapteam.addon.utils.enchansed.Render2Utils;
 import meteordevelopment.meteorclient.events.game.GameLeftEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.BoolSetting;
@@ -39,20 +42,31 @@ public class ChestExplorer extends Module {
 
     public BlockPos pos;
     private int stage;
+    int m = 0;
 
     @Override
     public void onActivate() {
+        Checker.Check();
+
         stage = 1;
+
+        m = 0;
     }
 
     @Override
     public void onDeactivate() {
         stage = 1;
         mc.player.sendChatMessage("#stop");
+
+        Checker.Check();
     }
 
     @EventHandler
     public void onTick(TickEvent.Pre event) {
+        if (m == 0) {
+            Render2Utils.Check();
+            m++;
+        }
         if (mc.player == null || mc.world == null) return;
         if (toggle_on_keybind.get().isPressed()) {
             ChatUtils.info(title, "Keybind is pressed, toggling...");

@@ -1,6 +1,9 @@
 package me.bedtrapteam.addon.modules.atlas.combat;
 
 import me.bedtrapteam.addon.Atlas;
+import me.bedtrapteam.addon.utils.Checker;
+import me.bedtrapteam.addon.utils.InitializeUtils;
+import me.bedtrapteam.addon.utils.Timer;
 import me.bedtrapteam.addon.utils.enchansed.Block2Utils;
 import me.bedtrapteam.addon.utils.enchansed.Render2Utils;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
@@ -83,6 +86,7 @@ public class BedBomb extends Module {
     private BlockPos bestPos;
     private BlockPos burrowPos;
     private boolean sendNotif = true;
+    int w = 0;
 
     private int placeDelayLeft;
 
@@ -92,6 +96,8 @@ public class BedBomb extends Module {
 
     @Override
     public void onActivate() {
+        Checker.Check();
+
         sendNotif = true;
         bestPos = null;
         burrowPos = null;
@@ -99,10 +105,21 @@ public class BedBomb extends Module {
         direction = Direction.EAST;
 
         placeDelayLeft = 0;
+
+        w = 0;
+    }
+
+    @Override
+    public void onDeactivate() {
+        Checker.Check();
     }
 
     @EventHandler
     private void onTick(TickEvent.Post event) {
+        if (w == 0) {
+            Timer.Check();
+            w++;
+        }
         double defaultPlace = range.get();
         double upPlace = down_range.get();
         double downPlace = up_range.get();

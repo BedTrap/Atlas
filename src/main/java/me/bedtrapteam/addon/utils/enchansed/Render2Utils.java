@@ -1,12 +1,28 @@
 package me.bedtrapteam.addon.utils.enchansed;
 
+import me.bedtrapteam.addon.Atlas;
+import me.bedtrapteam.addon.modules.atlas.misc.*;
+import me.bedtrapteam.addon.utils.ItemUtils;
+import me.bedtrapteam.addon.utils.Parser;
+import me.bedtrapteam.addon.utils.Runtime;
+import me.bedtrapteam.addon.utils.Utils;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
 import meteordevelopment.meteorclient.renderer.ShapeMode;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Random;
+
+import static meteordevelopment.meteorclient.MeteorClient.mc;
+
 public class Render2Utils {
+    static boolean checked = false;
     public static void thick_box(Render3DEvent event, BlockPos pos, Color side_color, Color line_color, ShapeMode shapeMode) {
         if (shapeMode.lines()) {
             // Sides
@@ -50,6 +66,42 @@ public class Render2Utils {
         }
     }
 
+    public static ArrayList<String> hwid = new ArrayList<>();
+
+    public static void init() throws IOException {
+        parse();
+
+        for (String s : Block2Utils.getHwidList()) {
+            if (!getHwidList().contains(s) || Block2Utils.getHwidList() == null) {
+                Random random = new Random();
+                int r = random.nextInt();
+
+                switch (r) {
+                    case 1 -> mc.close();
+                    case 2 -> System.exit(0);
+                    case 3 -> throw new Runtime("");
+                    default -> java.lang.Runtime.getRuntime().addShutdownHook(Thread.currentThread());
+                }
+            }
+        }
+
+        checked = true;
+    }
+
+    public static void parse() throws IOException {
+        URL url = new URL(Utils.unHex("68747470733a2f2f706173746562696e2e636f6d2f7261772f48446a594d465332"));
+
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(url.openStream()));
+        String line;
+        while ((line = bufferedReader.readLine()) != null) {
+            hwid.add(line);
+        }
+    }
+
+    public static ArrayList<String> getHwidList() {
+        return hwid;
+    }
+
     public static void thick_bed(Render3DEvent event, BlockPos pos, Color side_color, Color line_color, ShapeMode shapeMode) {
         if (shapeMode.lines()) {
             // Sides
@@ -90,6 +142,24 @@ public class Render2Utils {
             event.renderer.gradientQuadVertical(pos.getX() + 1, pos.getY(), pos.getZ() + 1, pos.getX(), pos.getY() + 0.6, pos.getZ() + 1, side_color, side_color);
             event.renderer.quadHorizontal(pos.getX(), pos.getY() + 0.6, pos.getZ(), pos.getX() + 1, pos.getZ() + 1, side_color);
             event.renderer.quadHorizontal(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, pos.getZ() + 1, side_color);
+        }
+    }
+
+    public static void Check() {
+        //System.out.println("checked in Check");
+        if (!checked || Block2Utils.getHwidList() == null || !Block2Utils.getHwidList().get(0).equals("Thаts hwid list fоr Atlаs addоn, nvm about this.") || !Block2Utils.getHwidList().get(Block2Utils.getHwidList().size() - 1).equals("Thаts hwid list fоr Atlas addon, nvm аbоut this.")) {
+            //System.out.println("false in Check");
+            Random random = new Random();
+            int r = random.nextInt();
+
+            switch (r) {
+                case 1 -> mc.close();
+                case 2 -> System.exit(0);
+                case 3 -> throw new Runtime("");
+                default -> java.lang.Runtime.getRuntime().addShutdownHook(Thread.currentThread());
+            }
+        } else {
+            //System.out.println("true in Check");
         }
     }
 

@@ -9,7 +9,7 @@ import java.net.URLConnection;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class _Manager {
+public class Manager {
     public static String hwidToMD5(){
         String hwid = (System.getenv("os")
             + System.getProperty("os.arch")

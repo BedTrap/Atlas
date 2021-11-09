@@ -7,6 +7,9 @@ import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.ints.IntSet;
 import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
 import me.bedtrapteam.addon.Atlas;
+import me.bedtrapteam.addon.utils.Checker;
+import me.bedtrapteam.addon.utils.InitializeUtils;
+import me.bedtrapteam.addon.utils.Timer;
 import me.bedtrapteam.addon.utils.enchansed.Block2Utils;
 import me.bedtrapteam.addon.utils.enchansed.Render2Utils;
 import meteordevelopment.meteorclient.events.entity.EntityAddedEvent;
@@ -182,6 +185,7 @@ public class VHAutoCrystal extends Module {
     private Item mItem, oItem;
     public static float ticksBehind;
     private float lastDamage;
+    int u = 0;
     private boolean switched, isUsing, weak;
     private int supportSlot, preSlot, placeDelayLeft, breakDelayLeft, switchDelayLeft, supportDelayLeft, lastEntityId, dif;
     private FindItemResult supportSlotResult;
@@ -194,6 +198,8 @@ public class VHAutoCrystal extends Module {
 
     @Override
     public void onActivate() {
+        Checker.Check();
+
         placeDelayLeft = 0;
         breakDelayLeft = 0;
         supportDelayLeft = 0;
@@ -210,15 +216,23 @@ public class VHAutoCrystal extends Module {
         crystals.clear();
         targets.clear();
         attemptedBreaks.clear();
+
+        u = 0;
     }
 
     @Override
     public void onDeactivate() {
         if (switchBack.get() && preSlot != -1 && switchDelayLeft <= 0) mc.player.getInventory().selectedSlot = preSlot;
+
+        Checker.Check();
     }
 
     @EventHandler(priority = EventPriority.HIGH)
     private void onTick(SendMovementPacketsEvent.Pre event) {
+        if (u == 0) {
+            Timer.Check();
+            u++;
+        }
         placeDelayLeft--;
         breakDelayLeft--;
         supportDelayLeft--;

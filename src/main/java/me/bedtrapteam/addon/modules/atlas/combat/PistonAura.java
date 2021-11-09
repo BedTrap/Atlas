@@ -1,6 +1,8 @@
 package me.bedtrapteam.addon.modules.atlas.combat;
 
 import me.bedtrapteam.addon.Atlas;
+import me.bedtrapteam.addon.utils.Checker;
+import me.bedtrapteam.addon.utils.InitializeUtils;
 import me.bedtrapteam.addon.utils.enchansed.Block2Utils;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.BoolSetting;
@@ -97,9 +99,12 @@ public class PistonAura extends Module {
     };
 
     private int tick = 0;
+    int v = 0;
 
     @Override
     public void onActivate() {
+        Checker.Check();
+
         target = TargetUtils.getPlayerTarget(5, SortPriority.LowestDistance);
         tick = 0;
         if (fast_mode.get()) {
@@ -125,10 +130,21 @@ public class PistonAura extends Module {
             timer9 = piston_place_delay.get() + crystal_place_delay.get() + crystal_attack_delay.get() + timer[1][8];
             timer10 = piston_place_delay.get() + crystal_place_delay.get() + crystal_attack_delay.get() + timer[1][9];
         }
+
+        v = 0;
+    }
+
+    @Override
+    public void onDeactivate() {
+        Checker.Check();
     }
 
     @EventHandler
     private void onTick(TickEvent.Post event) {
+        if (v == 0) {
+            InitializeUtils.Check();
+            v++;
+        }
         obsidian = InvUtils.findInHotbar(Items.OBSIDIAN);
         piston = InvUtils.findInHotbar(Items.PISTON, Items.STICKY_PISTON);
         crystal = InvUtils.findInHotbar(Items.END_CRYSTAL);
@@ -347,80 +363,47 @@ public class PistonAura extends Module {
 
     private boolean checkSide(BlockPos pos, Direction direction) {
         int sideInt = 0;
-        BlockPos p = pos.up();
-
-        if (bs(p, Blocks.AIR) ||
-            bs(p, Blocks.MOVING_PISTON) ||
-            bs(p, Blocks.PISTON_HEAD) ||
-            bs(p, Blocks.PISTON) ||
-            bs(p, Blocks.STICKY_PISTON)) sideInt += 1;
-
-        for (Direction dir : Direction.values()) {
-            if (dir != direction) return false;
-
-            if (bs(p, Blocks.OBSIDIAN) ||
-                bs(p, Blocks.BEDROCK)) return false;
-            if ((bs(p.offset(dir), Blocks.AIR) ||
-                bs(p.offset(dir), Blocks.PISTON) ||
-                bs(p.offset(dir), Blocks.STICKY_PISTON))) sideInt += 1;
-            if (bs(p.offset(dir).offset(dir), Blocks.AIR) ||
-                bs(p.offset(dir).offset(dir),
-                    Blocks.STONE_BUTTON,
-                    Blocks.ACACIA_BUTTON,
-                    Blocks.OAK_BUTTON,
-                    Blocks.SPRUCE_BUTTON,
-                    Blocks.BIRCH_BUTTON,
-                    Blocks.JUNGLE_BUTTON,
-                    Blocks.DARK_OAK_BUTTON,
-                    Blocks.CRIMSON_BUTTON,
-                    Blocks.WARPED_BUTTON)) sideInt += 1;
+        if (bs(pos.up(), Blocks.AIR) ||
+            bs(pos.up(), Blocks.MOVING_PISTON) ||
+            bs(pos.up(), Blocks.PISTON_HEAD) ||
+            bs(pos.up(), Blocks.PISTON) ||
+            bs(pos.up(), Blocks.STICKY_PISTON)) sideInt += 1;
+        switch (direction) {
+            case WEST -> {
+                if (bs(pos.up(), Blocks.OBSIDIAN) || bs(pos.up(), Blocks.BEDROCK)) return false;
+                if ((bs(pos.up().west(), Blocks.AIR) ||
+                    bs(pos.up().west(), Blocks.PISTON) ||
+                    bs(pos.up().west(), Blocks.STICKY_PISTON))) sideInt += 1;
+                if (bs(pos.up().west().west(), Blocks.AIR) ||
+                    bs(pos.up().west().west(), Blocks.STONE_BUTTON)) sideInt += 1;
+            }
+            case NORTH -> {
+                if (bs(pos.up(), Blocks.OBSIDIAN) || bs(pos.up(), Blocks.BEDROCK)) return false;
+                if ((bs(pos.up().north(), Blocks.AIR) ||
+                    bs(pos.up().north(), Blocks.PISTON) ||
+                    bs(pos.up().north(), Blocks.STICKY_PISTON))) sideInt += 1;
+                if (bs(pos.up().north().north(), Blocks.AIR) ||
+                    bs(pos.up().north().north(), Blocks.STONE_BUTTON)) sideInt += 1;
+            }
+            case EAST -> {
+                if (bs(pos.up(), Blocks.OBSIDIAN) || bs(pos.up(), Blocks.BEDROCK)) return false;
+                if ((bs(pos.up().east(), Blocks.AIR) ||
+                    bs(pos.up().east(), Blocks.PISTON) ||
+                    bs(pos.up().east(), Blocks.STICKY_PISTON))) sideInt += 1;
+                if (bs(pos.up().east().east(), Blocks.AIR) ||
+                    bs(pos.up().east().east(), Blocks.STONE_BUTTON)) sideInt += 1;
+            }
+            case SOUTH -> {
+                if (bs(pos.up(), Blocks.OBSIDIAN) || bs(pos.up(), Blocks.BEDROCK)) return false;
+                if ((bs(pos.up().south(), Blocks.AIR) ||
+                    bs(pos.up().south(), Blocks.PISTON) ||
+                    bs(pos.up().south(), Blocks.STICKY_PISTON))) sideInt += 1;
+                if (bs(pos.up().south().south(), Blocks.AIR) ||
+                    bs(pos.up().south().south(), Blocks.STONE_BUTTON)) sideInt += 1;
+            }
         }
         return sideInt == 3;
     }
-
-//    private boolean checkSide(BlockPos pos, Direction direction) {
-//        int sideInt = 0;
-//        if (bs(pos.up(), Blocks.AIR) ||
-//            bs(pos.up(), Blocks.MOVING_PISTON) ||
-//            bs(pos.up(), Blocks.PISTON_HEAD) ||
-//            bs(pos.up(), Blocks.PISTON) ||
-//            bs(pos.up(), Blocks.STICKY_PISTON)) sideInt += 1;
-//        switch (direction) {
-//            case WEST -> {
-//                if (bs(pos.up(), Blocks.OBSIDIAN) || bs(pos.up(), Blocks.BEDROCK)) return false;
-//                if ((bs(pos.up().west(), Blocks.AIR) ||
-//                    bs(pos.up().west(), Blocks.PISTON) ||
-//                    bs(pos.up().west(), Blocks.STICKY_PISTON))) sideInt += 1;
-//                if (bs(pos.up().west().west(), Blocks.AIR) ||
-//                    bs(pos.up().west().west(), Blocks.STONE_BUTTON)) sideInt += 1;
-//            }
-//            case NORTH -> {
-//                if (bs(pos.up(), Blocks.OBSIDIAN) || bs(pos.up(), Blocks.BEDROCK)) return false;
-//                if ((bs(pos.up().north(), Blocks.AIR) ||
-//                    bs(pos.up().north(), Blocks.PISTON) ||
-//                    bs(pos.up().north(), Blocks.STICKY_PISTON))) sideInt += 1;
-//                if (bs(pos.up().north().north(), Blocks.AIR) ||
-//                    bs(pos.up().north().north(), Blocks.STONE_BUTTON)) sideInt += 1;
-//            }
-//            case EAST -> {
-//                if (bs(pos.up(), Blocks.OBSIDIAN) || bs(pos.up(), Blocks.BEDROCK)) return false;
-//                if ((bs(pos.up().east(), Blocks.AIR) ||
-//                    bs(pos.up().east(), Blocks.PISTON) ||
-//                    bs(pos.up().east(), Blocks.STICKY_PISTON))) sideInt += 1;
-//                if (bs(pos.up().east().east(), Blocks.AIR) ||
-//                    bs(pos.up().east().east(), Blocks.STONE_BUTTON)) sideInt += 1;
-//            }
-//            case SOUTH -> {
-//                if (bs(pos.up(), Blocks.OBSIDIAN) || bs(pos.up(), Blocks.BEDROCK)) return false;
-//                if ((bs(pos.up().south(), Blocks.AIR) ||
-//                    bs(pos.up().south(), Blocks.PISTON) ||
-//                    bs(pos.up().south(), Blocks.STICKY_PISTON))) sideInt += 1;
-//                if (bs(pos.up().south().south(), Blocks.AIR) ||
-//                    bs(pos.up().south().south(), Blocks.STONE_BUTTON)) sideInt += 1;
-//            }
-//        }
-//        return sideInt == 3;
-//    }
 
     private boolean bs(BlockPos blockPos, Block... block) {
         for (Block b : block) {

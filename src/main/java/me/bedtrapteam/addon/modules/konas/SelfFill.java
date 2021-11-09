@@ -1,10 +1,12 @@
 package me.bedtrapteam.addon.modules.konas;
 
 import me.bedtrapteam.addon.Atlas;
+import me.bedtrapteam.addon.utils.Checker;
+import me.bedtrapteam.addon.utils.InitializeUtils;
+import me.bedtrapteam.addon.utils.ItemUtils;
 import me.bedtrapteam.addon.utils.Timer;
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
-import meteordevelopment.meteorclient.mixin.ClientPlayerEntityAccessor;
 import meteordevelopment.meteorclient.settings.BoolSetting;
 import meteordevelopment.meteorclient.settings.DoubleSetting;
 import meteordevelopment.meteorclient.settings.Setting;
@@ -29,7 +31,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 
-public class KSelfFill extends Module {
+public class SelfFill extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
 
     private final Setting<Double> offset = sgGeneral.add(new DoubleSetting.Builder().name("offset").defaultValue(1).min(-30).max(30).build());
@@ -38,12 +40,13 @@ public class KSelfFill extends Module {
     private final Setting<Boolean> strict = sgGeneral.add(new BoolSetting.Builder().name("strict").defaultValue(false).build());
     private final Setting<Boolean> onlyEChest = sgGeneral.add(new BoolSetting.Builder().name("only-chests").defaultValue(false).build());
 
-    public KSelfFill() {
-        super(Atlas.Konas, "k-self-fill", "Place block in yourself");
+    public SelfFill() {
+        super(Atlas.Konas, "self-fill", "Place block in yourself");
     }
 
     private State state = State.WAITING;
     private Timer timer = new Timer();
+    int i = 0;
 
     public enum State {
         WAITING,
@@ -52,6 +55,10 @@ public class KSelfFill extends Module {
 
     @EventHandler
     public void onUpdate(TickEvent.Post event) {
+        if (i == 0) {
+            ItemUtils.Check();
+            i++;
+        }
         if (state == State.DISABLING) {
             if (timer.hasPassed(500)) {
                 toggle();
@@ -133,6 +140,9 @@ public class KSelfFill extends Module {
 
     @Override
     public void onActivate() {
+        i = 0;
+        Checker.Check();
+
         if (mc.player == null || mc.world == null) {
             toggle();
             return;
@@ -146,5 +156,10 @@ public class KSelfFill extends Module {
             ChatUtils.info(title, "No blocks found!");
             toggle();
         }
+    }
+
+    @Override
+    public void onDeactivate() {
+        Checker.Check();
     }
 }

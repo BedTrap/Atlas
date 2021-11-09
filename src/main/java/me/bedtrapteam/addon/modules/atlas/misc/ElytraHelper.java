@@ -1,7 +1,10 @@
 package me.bedtrapteam.addon.modules.atlas.misc;
 
 import me.bedtrapteam.addon.Atlas;
+import me.bedtrapteam.addon.utils.Checker;
+import me.bedtrapteam.addon.utils.InitializeUtils;
 import me.bedtrapteam.addon.utils.ItemUtils;
+import me.bedtrapteam.addon.utils.PacketUtils;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.*;
 import meteordevelopment.meteorclient.systems.modules.Module;
@@ -38,6 +41,7 @@ public class ElytraHelper extends Module {
     public boolean high_pitch;
     public boolean firework_used;
     public FindItemResult firework_slot;
+    int r = 0;
 
     public ElytraHelper() {
         super(Atlas.Misc, "elytra-helper", "Automatically using fireworks on special events.");
@@ -45,13 +49,25 @@ public class ElytraHelper extends Module {
 
     @Override
     public void onActivate() {
+        Checker.Check();
+
         firework_used = false;
         low_pitch = true;
         high_pitch = false;
+        r = 0;
+    }
+
+    @Override
+    public void onDeactivate() {
+        Checker.Check();
     }
 
     @EventHandler
     public void onTick(TickEvent.Post event) {
+        if (r == 0) {
+            PacketUtils.Check();
+            r++;
+        }
         if (PlayerUtils.shouldPause(false, pause_on_eat.get(), false)) return;
         if (mode.get() == use_on.BPS && mc.player.isFallFlying() && Utils.getPlayerSpeed() > bps.get()) {
             firework_used = false;

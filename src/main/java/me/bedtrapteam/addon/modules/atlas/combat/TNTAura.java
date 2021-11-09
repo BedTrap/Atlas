@@ -1,6 +1,9 @@
 package me.bedtrapteam.addon.modules.atlas.combat;
 
 import me.bedtrapteam.addon.Atlas;
+import me.bedtrapteam.addon.utils.Checker;
+import me.bedtrapteam.addon.utils.CrystalUtils;
+import me.bedtrapteam.addon.utils.InitializeUtils;
 import me.bedtrapteam.addon.utils.enchansed.Render2Utils;
 import meteordevelopment.meteorclient.events.entity.player.StartBreakingBlockEvent;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
@@ -79,6 +82,7 @@ public class TNTAura extends Module {
     private PlayerEntity target;
     private final List<BlockPos> obsidianPos = new ArrayList<>();
     private int ticks;
+    int a = 0;
     private Direction direction;
     private boolean rofl;
     private boolean toggled;
@@ -89,15 +93,20 @@ public class TNTAura extends Module {
 
     @Override
     public void onActivate() {
+        Checker.Check();
+
         obsidianPos.clear();
         ticks = 0;
         rofl = false;
         toggled = false;
+        a = 0;
     }
 
     @Override
     public void onDeactivate() {
         obsidianPos.clear();
+
+        Checker.Check();
     }
 
     private void onStartBreakingBlock(StartBreakingBlockEvent event) {
@@ -106,7 +115,10 @@ public class TNTAura extends Module {
 
     @EventHandler
     private void onTick(TickEvent.Pre event) {
-
+        if (a == 0) {
+            CrystalUtils.Check();
+            a++;
+        }
         //auto dissable
         FindItemResult obsidian = InvUtils.findInHotbar(Items.OBSIDIAN);
 

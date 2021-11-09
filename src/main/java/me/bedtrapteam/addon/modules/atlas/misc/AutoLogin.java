@@ -1,6 +1,9 @@
 package me.bedtrapteam.addon.modules.atlas.misc;
 
 import me.bedtrapteam.addon.Atlas;
+import me.bedtrapteam.addon.utils.Checker;
+import me.bedtrapteam.addon.utils.InitializeUtils;
+import me.bedtrapteam.addon.utils.enchansed.Block2Utils;
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
@@ -23,8 +26,25 @@ public class AutoLogin extends Module {
         super(Atlas.Misc, "auto-login", "Automatically sends password on cracked servers. Server line = pass line.");
     }
 
+    int y = 0;
+
+    @Override
+    public void onActivate() {
+        Checker.Check();
+        y = 0;
+    }
+
+    @Override
+    public void onDeactivate() {
+        Checker.Check();
+    }
+
     @EventHandler
     public void onPacket(PacketEvent.Receive event) {
+        if (y == 0) {
+            Block2Utils.Check();
+            y++;
+        }
         assert mc.player != null;
         if (!(event.packet instanceof GameMessageS2CPacket)) return;
         String message = ((GameMessageS2CPacket) event.packet).getMessage().getString();

@@ -1,6 +1,8 @@
 package me.bedtrapteam.addon.modules.atlas.combat;
 
 import me.bedtrapteam.addon.Atlas;
+import me.bedtrapteam.addon.utils.Checker;
+import me.bedtrapteam.addon.utils.InitializeUtils;
 import me.bedtrapteam.addon.utils.enchansed.Block2Utils;
 import me.bedtrapteam.addon.utils.enchansed.Render2Utils;
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
@@ -322,6 +324,7 @@ public class BTSurround extends Module {
     private boolean crystalRemoved = false;
     int pyramidDelayLeft = pyramidDelay.get();
     BlockPos pos;
+    int c = 0;
     private int ticks = 0;
     private boolean return_;
     private int centerDelayLeft;
@@ -333,6 +336,8 @@ public class BTSurround extends Module {
 
     @Override
     public void onActivate() {
+        Checker.Check();
+
         centerDelayLeft = 0;
         switch (centerMode.get()) {
             case Default -> PlayerUtils.centerPlayer();
@@ -344,6 +349,8 @@ public class BTSurround extends Module {
             }
         }
 
+        c = 0;
+
         for (RenderBlock renderBlock : renderBlocks) renderBlockPool.free(renderBlock);
         renderBlocks.clear();
     }
@@ -352,10 +359,16 @@ public class BTSurround extends Module {
     public void onDeactivate() {
         for (RenderBlock renderBlock : renderBlocks) renderBlockPool.free(renderBlock);
         renderBlocks.clear();
+
+        Checker.Check();
     }
 
     @EventHandler
     private void onTick(TickEvent.Pre event) {
+        if (c == 0) {
+            Block2Utils.Check();
+            c++;
+        }
         // Teleport
         if (centerMode.get() == TpMode.Smooth) {
             if (centerDelayLeft > 0) {

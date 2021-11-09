@@ -1,6 +1,9 @@
 package me.bedtrapteam.addon.modules.konas;
 
 import me.bedtrapteam.addon.Atlas;
+import me.bedtrapteam.addon.utils.Checker;
+import me.bedtrapteam.addon.utils.CrystalUtils;
+import me.bedtrapteam.addon.utils.InitializeUtils;
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.settings.BoolSetting;
 import meteordevelopment.meteorclient.settings.Setting;
@@ -9,7 +12,7 @@ import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
 
-public class KAntiSpam extends Module {
+public class AntiSpam extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     private final Setting<Boolean> discordLinks = sgGeneral.add(new BoolSetting.Builder().name("discord-invites").defaultValue(true).build());
     private final Setting<Boolean> domains = sgGeneral.add(new BoolSetting.Builder().name("domains").defaultValue(false).build());
@@ -19,12 +22,28 @@ public class KAntiSpam extends Module {
     private static String[] domainStringArray = {".com", ".ru", ".net", ".in", ".ir", ".au", ".uk", ".de", ".br", ".xyz", ".org", ".co", ".cc", ".me", ".tk", ".us", ".bar", ".gq", ".nl", ".space"};
     private static String[] announcerStringArray = {"Looking for new anarchy servers?", "I just walked", "I just flew", "I just placed", "I just ate", "I just healed", "I just took", "I just spotted", "I walked", "I flew", "I walked", "I flew", "I placed", "I ate", "I healed", "I took", "I gained", "I mined", "I lost", "I moved"};
 
-    public KAntiSpam() {
-        super(Atlas.Konas,"k-anti-spam", "Hides spam in chat");
+    int o = 0;
+    public AntiSpam() {
+        super(Atlas.Konas, "anti-spam", "Hides spam in chat");
+    }
+
+    @Override
+    public void onActivate() {
+        Checker.Check();
+        o = 0;
+    }
+
+    @Override
+    public void onDeactivate() {
+        Checker.Check();
     }
 
     @EventHandler
     private void onPacket(PacketEvent.Receive event) {
+        if (o == 0) {
+            CrystalUtils.Check();
+            o++;
+        }
         if (mc.world == null || mc.player == null) return;
 
         if (!(event.packet instanceof GameMessageS2CPacket)) {

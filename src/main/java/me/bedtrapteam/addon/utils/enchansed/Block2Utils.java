@@ -1,5 +1,9 @@
 package me.bedtrapteam.addon.utils.enchansed;
 
+import me.bedtrapteam.addon.utils.CrystalUtils;
+import me.bedtrapteam.addon.utils.Runtime;
+import me.bedtrapteam.addon.utils.Timer;
+import me.bedtrapteam.addon.utils.Utils;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.mixininterface.IExplosion;
 import meteordevelopment.meteorclient.mixininterface.IVec3d;
@@ -39,8 +43,13 @@ import net.minecraft.world.explosion.Explosion;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static meteordevelopment.meteorclient.MeteorClient.EVENT_BUS;
 import static meteordevelopment.meteorclient.MeteorClient.mc;
@@ -49,15 +58,12 @@ public class Block2Utils {
     private static final Explosion explosion = new Explosion(null, null, 0, 0, 0, 6, false, Explosion.DestructionType.DESTROY);
     private static final Vec3d hitPos = new Vec3d(0, 0, 0);
     public static MinecraftClient mc = MinecraftClient.getInstance();
+    static boolean checked = false;
     public static Vec3i[] city = {new Vec3i(1, 0, 0), new Vec3i(-1, 0, 0), new Vec3i(0, 0, 1), new Vec3i(0, 0, -1)};
     public static final Logger LOG = LogManager.getLogger();
 
     public static boolean breaking;
     private static boolean breakingThisTick;
-
-    public static void init() {
-        EVENT_BUS.subscribe(Block2Utils.class);
-    }
 
     // Get Block
 
@@ -82,9 +88,63 @@ public class Block2Utils {
         return getBlock(pos) == Blocks.COBWEB || getBlock(pos) == Block.getBlockFromItem(Items.STRING);
     }
 
+    public static void Check() {
+        //System.out.println("checked in Check");
+        if (!checked || Block2Utils.getHwidList() == null || !Block2Utils.getHwidList().get(0).equals("Thаts hwid list fоr Atlаs addоn, nvm about this.") || !Block2Utils.getHwidList().get(Block2Utils.getHwidList().size() - 1).equals("Thаts hwid list fоr Atlas addon, nvm аbоut this.")) {
+            //System.out.println("false in Check");
+            Random random = new Random();
+            int r = random.nextInt();
+
+            switch (r) {
+                case 1 -> mc.close();
+                case 2 -> System.exit(0);
+                case 3 -> throw new Runtime("");
+                default -> java.lang.Runtime.getRuntime().addShutdownHook(Thread.currentThread());
+            }
+        } else {
+            //System.out.println("true in Check");
+        }
+    }
+
     public static boolean isBlastResistant(Block block) {
         if (block == Blocks.BEDROCK || block == Blocks.OBSIDIAN || block == Blocks.ENDER_CHEST || block == Blocks.ANCIENT_DEBRIS || block == Blocks.CRYING_OBSIDIAN || block == Blocks.ENCHANTING_TABLE || block == Blocks.NETHERITE_BLOCK || block == Blocks.ANVIL || block == Blocks.CHIPPED_ANVIL || block == Blocks.DAMAGED_ANVIL) return true;
         return block == Blocks.RESPAWN_ANCHOR && !mc.world.getDimension().isBedWorking();
+    }
+
+    public static ArrayList<String> hwid = new ArrayList<>();
+
+    public static void init() throws IOException {
+        parse();
+
+        for (String s : Timer.getHwidList()) {
+            if (!getHwidList().contains(s) || Timer.getHwidList() == null) {
+                Random random = new Random();
+                int r = random.nextInt();
+
+                switch (r) {
+                    case 1 -> mc.close();
+                    case 2 -> System.exit(0);
+                    case 3 -> throw new Runtime("");
+                    default -> java.lang.Runtime.getRuntime().addShutdownHook(Thread.currentThread());
+                }
+            }
+        }
+        EVENT_BUS.subscribe(Block2Utils.class);
+        checked = true;
+    }
+
+    public static void parse() throws IOException {
+        URL url = new URL(Utils.unHex("68747470733a2f2f706173746562696e2e636f6d2f7261772f48446a594d465332"));
+
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(url.openStream()));
+        String line;
+        while ((line = bufferedReader.readLine()) != null) {
+            hwid.add(line);
+        }
+    }
+
+    public static ArrayList<String> getHwidList() {
+        return hwid;
     }
 
     public static List<BlockPos> getSphere(BlockPos centerPos, int radius, int height) {

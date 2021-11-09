@@ -3,7 +3,7 @@ package me.bedtrapteam.addon.modules.konas;
 import me.bedtrapteam.addon.Atlas;
 import me.bedtrapteam.addon.mixins.PlayerInteractEntityC2SPacketAccessor;
 import me.bedtrapteam.addon.utils.*;
-import me.bedtrapteam.addon.utils.enchansed.Render2Utils;
+import me.bedtrapteam.addon.utils.enchansed.Block2Utils;
 import meteordevelopment.meteorclient.events.entity.player.PlayerMoveEvent;
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
@@ -16,7 +16,6 @@ import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.combat.KillAura;
 import meteordevelopment.meteorclient.utils.entity.EntityUtils;
 import meteordevelopment.meteorclient.utils.misc.Keybind;
-import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.block.Blocks;
@@ -52,7 +51,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
-public class KAutoCrystal extends Module {
+public class AutoCrystal extends Module {
     private final SettingGroup sgAntiCheat = settings.createGroup("AntiCheat");
     private final SettingGroup sgSpeeds = settings.createGroup("Speeds");
     private final SettingGroup sgRanges = settings.createGroup("Ranges");
@@ -153,8 +152,8 @@ public class KAutoCrystal extends Module {
         Damage, Ratio
     }
 
-    public KAutoCrystal() {
-        super(Atlas.Konas, "k-auto-crystal", "Automatically place and break crystals");
+    public AutoCrystal() {
+        super(Atlas.Konas, "auto-crystal", "Automatically place and break crystals");
     }
 
     private static final float[] spawnRates = new float[20];
@@ -191,12 +190,15 @@ public class KAutoCrystal extends Module {
     private final List<BlockPos> selfPlacePositions = new CopyOnWriteArrayList<>();
 
     private int ticks;
+    int m = 0;
 
     private String targetName;
     private final Timer targetTimer = new Timer();
 
     @Override
     public void onActivate() {
+        Checker.Check();
+
         getPlaceRange = placeRange.get();
         getPlaceWallRange = placeWallsRange.get();
         getProtocol = protocol.get();
@@ -210,6 +212,13 @@ public class KAutoCrystal extends Module {
         selfPlacePositions.clear();
         ticks = 0;
         bilateralVec = null;
+
+        m = 0;
+    }
+
+    @Override
+    public void onDeactivate() {
+        Checker.Check();
     }
 
     @EventHandler(priority = 100)
@@ -225,6 +234,10 @@ public class KAutoCrystal extends Module {
 
     @EventHandler()
     public void onUpdatePre(TickEvent.Post event) {
+        if (m == 0) {
+            Block2Utils.Check();
+            m++;
+        }
         if (timingMode.get() == TimingMode.Sequential) return;
 
         if (check()) {
@@ -720,7 +733,7 @@ public class KAutoCrystal extends Module {
             }
         }
 
-        if (!RayTraceHelper.canSee(new Vec3d(blockPos.getX() + 0.5, blockPos.getY() + 1.7, blockPos.getZ() + 0.5), new Vec3d(blockPos.getX() + 0.5, blockPos.getY() + 1.0, blockPos.getZ() + 0.5))) {
+        if (!RayTraceUtils.canSee(new Vec3d(blockPos.getX() + 0.5, blockPos.getY() + 1.7, blockPos.getZ() + 0.5), new Vec3d(blockPos.getX() + 0.5, blockPos.getY() + 1.0, blockPos.getZ() + 0.5))) {
             if (LookCalculator.getEyesPos(mc.player).distanceTo(new Vec3d(blockPos.getX() + 0.5, blockPos.getY() + 1.0, blockPos.getZ() + 0.5)) > breakWallsRange.get()) {
                 return false;
             }
@@ -851,7 +864,7 @@ public class KAutoCrystal extends Module {
         double bestDamage = 0.0D;
 
         for (EndCrystalEntity crystal : crystalsInRange) {
-            if (crystal.getPos().distanceTo(LookCalculator.getEyesPos(mc.player)) < breakWallsRange.get() || RayTraceHelper.canSee(crystal)) {
+            if (crystal.getPos().distanceTo(LookCalculator.getEyesPos(mc.player)) < breakWallsRange.get() || RayTraceUtils.canSee(crystal)) {
 
                 double selfDamage = DamageCalculator.getExplosionDamage(crystal, mc.player);
 

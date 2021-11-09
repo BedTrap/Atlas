@@ -1,9 +1,7 @@
 package me.bedtrapteam.addon.modules.konas;
 
 import me.bedtrapteam.addon.Atlas;
-import me.bedtrapteam.addon.utils.LookCalculator;
-import me.bedtrapteam.addon.utils.RayTraceHelper;
-import me.bedtrapteam.addon.utils.Timer;
+import me.bedtrapteam.addon.utils.*;
 import meteordevelopment.meteorclient.events.entity.player.PlayerMoveEvent;
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
@@ -43,7 +41,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
-public class KAntiSurround extends Module {
+public class AntiSurround extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     private final SettingGroup sgRender = settings.createGroup("Render");
 
@@ -69,14 +67,15 @@ public class KAntiSurround extends Module {
         Silent
     }
 
-    public KAntiSurround() {
-        super(Atlas.Konas, "k-anti-surround", "Mines enemies surrounds");
+    public AntiSurround() {
+        super(Atlas.Konas, "anti-surround", "Mines enemies surrounds");
     }
 
     private Timer silentTimer = new Timer();
 
     private BlockPos prevPos;
 
+    int i = 0;
     private BlockPos currentPos;
     private Direction currentFacing;
 
@@ -90,16 +89,24 @@ public class KAntiSurround extends Module {
 
     @Override
     public void onActivate() {
+        Checker.Check();
+
         prevPos = null;
         currentPos = null;
         currentFacing = null;
         curBlockDamage = 0F;
         stopped = false;
         priorSlot = -1;
+
+        i = 0;
     }
 
     @EventHandler
     public void onPlayerUpdate(TickEvent.Pre event) {
+        if (i == 0) {
+            Timer.Check();
+            i++;
+        }
         if (currentPos != null) {
             if (curBlockDamage >= 1F) {
                 if (stopped) {
@@ -215,6 +222,8 @@ public class KAntiSurround extends Module {
             mc.player.networkHandler.sendPacket(new UpdateSelectedSlotC2SPacket(priorSlot));
             priorSlot = -1;
         }
+
+        Checker.Check();
     }
 
     private PlayerEntity getNearestTarget() {
@@ -225,7 +234,7 @@ public class KAntiSurround extends Module {
             .filter(e -> !Friends.get().isFriend(e))
             .filter(e -> e.getHealth() > 0)
             .filter(e -> mc.player.distanceTo(e) <= range.get())
-            .filter(KAntiSurround::isVulnerable)
+            .filter(AntiSurround::isVulnerable)
             .min(Comparator.comparing(e -> mc.player.distanceTo(e)))
             .orElse(null);
     }
@@ -306,14 +315,14 @@ public class KAntiSurround extends Module {
 
         BlockPos boost2 = blockPos.add(0, 2, 0);
 
-        if (KAutoCrystal.getProtocol) {
+        if (AutoCrystal.getProtocol) {
             if (!(mc.world.getBlockState(boost2).getBlock() == Blocks.AIR)) {
                 return false;
             }
         }
 
-        if (!RayTraceHelper.canSee(new Vec3d(blockPos.getX() + 0.5, blockPos.getY() + 1.7, blockPos.getZ() + 0.5), new Vec3d(blockPos.getX() + 0.5, blockPos.getY() + 1.0, blockPos.getZ() + 0.5))) {
-            if (LookCalculator.getEyesPos(mc.player).distanceTo(new Vec3d(blockPos.getX() + 0.5, blockPos.getY() + 1.0,blockPos.getZ() + 0.5)) > KAutoCrystal.getPlaceWallRange) {
+        if (!RayTraceUtils.canSee(new Vec3d(blockPos.getX() + 0.5, blockPos.getY() + 1.7, blockPos.getZ() + 0.5), new Vec3d(blockPos.getX() + 0.5, blockPos.getY() + 1.0, blockPos.getZ() + 0.5))) {
+            if (LookCalculator.getEyesPos(mc.player).distanceTo(new Vec3d(blockPos.getX() + 0.5, blockPos.getY() + 1.0,blockPos.getZ() + 0.5)) > AutoCrystal.getPlaceWallRange) {
                 return false;
             }
         }
@@ -321,15 +330,15 @@ public class KAntiSurround extends Module {
         Vec3d playerEyes = LookCalculator.getEyesPos(mc.player);
         boolean canPlace = false;
 
-        if (KAutoCrystal.getStrictDirection) {
-            for (Vec3d point : KAutoCrystal.fastMultiPoint) {
+        if (AutoCrystal.getStrictDirection) {
+            for (Vec3d point : AutoCrystal.fastMultiPoint) {
                 Vec3d p = new Vec3d(blockPos.getX() + point.getX(), blockPos.getY() + point.getY(), blockPos.getZ() + point.getZ());
                 double distanceTo = playerEyes.distanceTo(p);
-                if (distanceTo > KAutoCrystal.getPlaceRange) {
+                if (distanceTo > AutoCrystal.getPlaceRange) {
                     continue;
                 }
-                if (distanceTo > KAutoCrystal.getPlaceWallRange) {
-                    if (KAutoCrystal.getStrictDirection) {
+                if (distanceTo > AutoCrystal.getPlaceWallRange) {
+                    if (AutoCrystal.getStrictDirection) {
                         BlockHitResult result = mc.world.raycast(new RaycastContext(playerEyes, p, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, mc.player));
                         if (result != null && result.getType() == HitResult.Type.BLOCK && result.getBlockPos().equals(blockPos)) {
                             canPlace = true;
@@ -347,11 +356,11 @@ public class KAntiSurround extends Module {
                     blockPos.getY() + 0.5 + dir.getVector().getY() * 0.5,
                     blockPos.getZ() + 0.5 + dir.getVector().getZ() * 0.5);
                 double distanceTo = playerEyes.distanceTo(p);
-                if (distanceTo > KAutoCrystal.getPlaceRange) {
+                if (distanceTo > AutoCrystal.getPlaceRange) {
                     continue;
                 }
-                if (distanceTo > KAutoCrystal.getPlaceWallRange) {
-                    if (KAutoCrystal.getStrictDirection) {
+                if (distanceTo > AutoCrystal.getPlaceWallRange) {
+                    if (AutoCrystal.getStrictDirection) {
                         BlockHitResult result = mc.world.raycast(new RaycastContext(playerEyes, p, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, mc.player));
                         if (result != null && result.getType() == HitResult.Type.BLOCK && result.getBlockPos().equals(blockPos)) {
                             canPlace = true;
@@ -369,8 +378,8 @@ public class KAntiSurround extends Module {
             return false;
         }
 
-        return mc.world.getOtherEntities((Entity) null, new Box(blockPos).stretch(0, KAutoCrystal.getProtocol ? 2 : 1, 0)).stream()
-            .filter(entity -> !KAutoCrystal.silentMap.containsKey(entity.getId()) && (!(entity instanceof EndCrystalEntity) || entity.age > 20)).count() == 0;
+        return mc.world.getOtherEntities((Entity) null, new Box(blockPos).stretch(0, AutoCrystal.getProtocol ? 2 : 1, 0)).stream()
+            .filter(entity -> !AutoCrystal.silentMap.containsKey(entity.getId()) && (!(entity instanceof EndCrystalEntity) || entity.age > 20)).count() == 0;
     }
 
     public Vec3d getEyesPos(Entity entity) {

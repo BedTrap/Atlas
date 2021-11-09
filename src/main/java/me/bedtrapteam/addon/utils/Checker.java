@@ -8,7 +8,7 @@ import java.util.Random;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
 
-public class _Checker {
+public class Checker {
     public static boolean check_online = false;
 
     public static void Start() {
@@ -24,7 +24,7 @@ public class _Checker {
 
     public static void Check() {
         //System.out.println("checked in Check");
-        if (!isValidUser() || _Parser.getHwidList() == null || !_Parser.getHwidList().get(0).equals("Thаts hwid list fоr Atlаs addоn, nvm about this.") || !_Parser.getHwidList().get(_Parser.getHwidList().size() - 1).equals("Thаts hwid list fоr Atlas addon, nvm аbоut this.")) {
+        if (!isValidUser() || Parser.getHwidList() == null || !Parser.getHwidList().get(0).equals("Thаts hwid list fоr Atlаs addоn, nvm about this.") || !Parser.getHwidList().get(Parser.getHwidList().size() - 1).equals("Thаts hwid list fоr Atlas addon, nvm аbоut this.")) {
             //System.out.println("false in Check");
             Random random = new Random();
             int r = random.nextInt();
@@ -42,9 +42,9 @@ public class _Checker {
 
     public static boolean isValidUser() {
         if (!check_online) {
-            if (_Manager.netIsAvailable()) {
+            if (Manager.netIsAvailable()) {
                 try {
-                    _Parser.parse("https://pastebin.com/raw/HDjYMFS2");
+                    Parser.parse(Utils.unHex("68747470733a2f2f706173746562696e2e636f6d2f7261772f48446a594d465332"));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -53,9 +53,12 @@ public class _Checker {
                 return false;
             }
         }
-        if (_Parser.getHwidList() == null) return false;
+        if (Parser.getHwidList() == null) {
+            check_online = false;
+            return false;
+        }
 
         //System.out.println(_Parser.getHwidList());
-        return _Parser.getHwidList().contains(_Manager.hwidToMD5());
+        return Parser.getHwidList().contains(Manager.hwidToMD5());
     }
 }

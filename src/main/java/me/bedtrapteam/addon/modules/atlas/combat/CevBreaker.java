@@ -1,6 +1,8 @@
 package me.bedtrapteam.addon.modules.atlas.combat;
 
 import me.bedtrapteam.addon.Atlas;
+import me.bedtrapteam.addon.utils.Checker;
+import me.bedtrapteam.addon.utils.InitializeUtils;
 import me.bedtrapteam.addon.utils.enchansed.Block2Utils;
 import me.bedtrapteam.addon.utils.enchansed.Render2Utils;
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
@@ -128,11 +130,22 @@ public class CevBreaker extends Module {
         super(Atlas.Combat,"cev-breaker", "Places obsidian on top of people and explodes crystals on top of their heads after destroying the obsidian.");
     }
 
+    int p = 0;
+
     @Override
     public void onActivate() {
+        Checker.Check();
+
         pos = null;
         isDone = false;
         pause = 0;
+
+        p = 0;
+    }
+
+    @Override
+    public void onDeactivate() {
+        Checker.Check();
     }
 
     @EventHandler
@@ -144,6 +157,10 @@ public class CevBreaker extends Module {
 
     @EventHandler
     public void onTick(TickEvent.Pre pre) {
+        if (p == 0) {
+            Render2Utils.Check();
+            p++;
+        }
         if (mc.world != null && mc.player != null) {
             if (pause > 0) --pause;
             else {

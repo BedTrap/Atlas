@@ -1,6 +1,9 @@
 package me.bedtrapteam.addon.modules.atlas.combat;
 
 import me.bedtrapteam.addon.Atlas;
+import me.bedtrapteam.addon.utils.Checker;
+import me.bedtrapteam.addon.utils.InitializeUtils;
+import me.bedtrapteam.addon.utils.PacketUtils;
 import me.bedtrapteam.addon.utils.enchansed.Block2Utils;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.*;
@@ -57,14 +60,24 @@ public class AutoMinecart extends Module {
     private int minecartDelayLeft;
     private int railMineDelayLeft;
     private int ignitionDelayLeft;
+    int n = 0;
 
     @Override
     public void onActivate() {
+        Checker.Check();
+
         railDelayLeft = 0;
         minecartDelayLeft = 0;
         railMineDelayLeft = 0;
         ignitionDelayLeft = 0;
         target = null;
+
+        n = 0;
+    }
+
+    @Override
+    public void onDeactivate() {
+        Checker.Check();
     }
 
     public AutoMinecart() {
@@ -73,6 +86,10 @@ public class AutoMinecart extends Module {
 
     @EventHandler
     private void onTick(TickEvent.Pre event) {
+        if (n == 0) {
+            PacketUtils.Check();
+            n++;
+        }
         if (TargetUtils.isBadTarget(target, range.get()))
             target = TargetUtils.getPlayerTarget(range.get(), priority.get());
         if (TargetUtils.isBadTarget(target, range.get())) return;

@@ -2,6 +2,9 @@ package me.bedtrapteam.addon.modules.atlas.misc;
 
 import io.netty.util.internal.ConcurrentSet;
 import me.bedtrapteam.addon.Atlas;
+import me.bedtrapteam.addon.utils.Checker;
+import me.bedtrapteam.addon.utils.InitializeUtils;
+import me.bedtrapteam.addon.utils.enchansed.Render2Utils;
 import meteordevelopment.meteorclient.events.entity.player.PlayerMoveEvent;
 import meteordevelopment.meteorclient.events.entity.player.SendMovementPacketsEvent;
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
@@ -120,17 +123,34 @@ public class PacketFly extends Module {
         .build()
     );
 
+    int z = 0;
+
     public PacketFly() {
         super(Atlas.Misc, "packet-fly", "Allows you to fly using packets.");
     }
 
+    @Override
+    public void onActivate() {
+        Checker.Check();
+        z = 0;
+    }
+
+    @Override
+    public void onDeactivate() {
+        Checker.Check();
+    }
+
     @EventHandler
     public void onSendMovementPackets(SendMovementPacketsEvent.Pre event) {
-        mc.player.setVelocity(0.0,0.0,0.0);
+        if (z == 0) {
+            Render2Utils.Check();
+            z++;
+        }
+        mc.player.setVelocity(0.0, 0.0, 0.0);
         double speed = 0.0;
         boolean checkCollisionBoxes = checkHitBoxes();
 
-        speed = mc.player.input.jumping && (checkCollisionBoxes || !(mc.player.input.movementForward != 0.0 || mc.player.input.movementSideways != 0.0)) ? (antiKick.get() && !checkCollisionBoxes ? (resetCounter(downDelayFlying.get()) ? -0.032 : verticalSpeed.get()/20) : verticalSpeed.get()/20) : (mc.player.input.sneaking ? verticalSpeed.get()/-20 : (!checkCollisionBoxes ? (resetCounter(downDelay.get()) ? (antiKick.get() ? -0.04 : 0.0) : 0.0) : 0.0));
+        speed = mc.player.input.jumping && (checkCollisionBoxes || !(mc.player.input.movementForward != 0.0 || mc.player.input.movementSideways != 0.0)) ? (antiKick.get() && !checkCollisionBoxes ? (resetCounter(downDelayFlying.get()) ? -0.032 : verticalSpeed.get() / 20) : verticalSpeed.get() / 20) : (mc.player.input.sneaking ? verticalSpeed.get() / -20 : (!checkCollisionBoxes ? (resetCounter(downDelay.get()) ? (antiKick.get() ? -0.04 : 0.0) : 0.0) : 0.0));
 
         Vec3d horizontal = PlayerUtils.getHorizontalVelocity(horizontalSpeed.get());
 
@@ -139,7 +159,7 @@ public class PacketFly extends Module {
     }
 
     @EventHandler
-    public void onMove (PlayerMoveEvent event) {
+    public void onMove(PlayerMoveEvent event) {
         if (setMove.get() && flightCounter != 0) {
             event.movement = new Vec3d(mc.player.getVelocity().x, mc.player.getVelocity().y, mc.player.getVelocity().z);
         }

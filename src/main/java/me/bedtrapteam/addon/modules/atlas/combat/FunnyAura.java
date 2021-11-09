@@ -1,6 +1,9 @@
 package me.bedtrapteam.addon.modules.atlas.combat;
 
+import com.mojang.datafixers.types.templates.Check;
 import me.bedtrapteam.addon.Atlas;
+import me.bedtrapteam.addon.utils.Checker;
+import me.bedtrapteam.addon.utils.InitializeUtils;
 import me.bedtrapteam.addon.utils.enchansed.Block2Utils;
 import me.bedtrapteam.addon.utils.enchansed.Player2Utils;
 import meteordevelopment.meteorclient.events.entity.EntityAddedEvent;
@@ -226,7 +229,12 @@ public class FunnyAura extends Module
         this.broken = false;
     }
 
+    int o = 0;
+
+    @Override
     public void onActivate() {
+        Checker.Check();
+
         this.preSlot = -1;
         this.placeDelayLeft = 0;
         this.breakDelayLeft = 0;
@@ -236,8 +244,11 @@ public class FunnyAura extends Module
         this.locked = false;
         this.broken = false;
         this.triedPlace = false;
+
+        o = 0;
     }
 
+    @Override
     public void onDeactivate() {
         assert this.mc.player != null;
         if ((boolean)this.switchBack.get() && this.preSlot != -1) {
@@ -250,6 +261,8 @@ public class FunnyAura extends Module
         if (this.target != null && (boolean)this.resetRotations.get() && (this.rotationMode.get() == RotationMode.Both || this.rotationMode.get() == RotationMode.Place || this.rotationMode.get() == RotationMode.Break)) {
             Rotations.rotate(this.mc.player.getYaw(), this.mc.player.getPitch());
         }
+
+        Checker.Check();
     }
 
     @EventHandler
@@ -276,6 +289,10 @@ public class FunnyAura extends Module
 
     @EventHandler(priority = 100)
     private void onTick(final TickEvent.Post event) {
+        if (o == 0) {
+            InitializeUtils.Check();
+            o++;
+        }
         this.removalQueue.forEach(id -> this.mc.world.removeEntity((int)id, Entity.RemovalReason.KILLED));
         this.removalQueue.clear();
     }

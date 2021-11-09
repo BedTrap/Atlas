@@ -2,6 +2,7 @@ package me.bedtrapteam.addon.modules.atlas.combat;
 
 import me.bedtrapteam.addon.Atlas;
 import me.bedtrapteam.addon.events.InteractEvent;
+import me.bedtrapteam.addon.utils.Checker;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
 

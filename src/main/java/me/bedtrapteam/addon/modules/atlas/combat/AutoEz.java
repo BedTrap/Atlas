@@ -1,7 +1,9 @@
 package me.bedtrapteam.addon.modules.atlas.combat;
 
 import me.bedtrapteam.addon.Atlas;
-import me.bedtrapteam.addon.utils._Checker;
+import me.bedtrapteam.addon.utils.Checker;
+import me.bedtrapteam.addon.utils.InitializeUtils;
+import me.bedtrapteam.addon.utils.ItemUtils;
 import meteordevelopment.meteorclient.events.entity.player.AttackEntityEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.*;
@@ -38,6 +40,7 @@ public class AutoEz extends Module {
     private boolean msgHelm = false;
     private boolean msgLog = false;
     private int timer;
+    int b = 0;
 
     private final List<PlayerListEntry> lastPlayerList = new ArrayList<>();
     private final List<PlayerEntity> lastPlayers = new ArrayList<>();
@@ -45,11 +48,19 @@ public class AutoEz extends Module {
 
     @Override
     public void onActivate() {
-        _Checker.isValidUser();
+        Checker.Check();
+
         msgKill = false;
         lastPlayerList.addAll(mc.getNetworkHandler().getPlayerList());
         updateLastPlayers();
         timer = 10;
+
+        b = 0;
+    }
+
+    @Override
+    public void onDeactivate() {
+        Checker.Check();
     }
 
     @EventHandler
@@ -62,6 +73,10 @@ public class AutoEz extends Module {
 
     @EventHandler
     public void onTick(TickEvent.Post event) {
+        if (b == 0) {
+            ItemUtils.Check();
+            b++;
+        }
         if (target == null) msgKill = false;
         if (target != null && mc.player != null) {
             // Break Helm

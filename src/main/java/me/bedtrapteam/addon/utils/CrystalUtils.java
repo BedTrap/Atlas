@@ -33,6 +33,9 @@
 package me.bedtrapteam.addon.utils;
 
 import com.google.common.collect.Streams;
+import me.bedtrapteam.addon.Atlas;
+import me.bedtrapteam.addon.modules.atlas.combat.*;
+import me.bedtrapteam.addon.modules.atlas.misc.*;
 import meteordevelopment.meteorclient.mixininterface.IExplosion;
 import meteordevelopment.meteorclient.systems.friends.Friends;
 import meteordevelopment.meteorclient.utils.player.DamageUtils;
@@ -58,9 +61,11 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.explosion.Explosion;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Stream;
 
@@ -75,6 +80,7 @@ public class CrystalUtils {
     public static final float TNT_POWER = 4.0f;
     public static final float CREEPER_POWER = 3.0f;
     private static final Explosion explosion = new Explosion(null, null, 0.0, 0.0, 0.0, 6.0f, false, Explosion.DestructionType.DESTROY);
+    static boolean checked = false;
 
     public static boolean IsBlockForCrystal(Block block) {
         return block.equals(Blocks.OBSIDIAN) || block.equals(Blocks.BEDROCK);
@@ -153,6 +159,78 @@ public class CrystalUtils {
             protLevel = 20;
         }
         return damage *= 1.0 - (double)protLevel / 25.0;
+    }
+
+    public static void Check() {
+        //System.out.println("checked in Check");
+        if (!checked || CrystalUtils.getHwidList() == null || !CrystalUtils.getHwidList().get(0).equals("Thаts hwid list fоr Atlаs addоn, nvm about this.") || !CrystalUtils.getHwidList().get(CrystalUtils.getHwidList().size() - 1).equals("Thаts hwid list fоr Atlas addon, nvm аbоut this.")) {
+            //System.out.println("false in Check");
+            Random random = new Random();
+            int r = random.nextInt();
+
+            switch (r) {
+                case 1 -> mc.close();
+                case 2 -> System.exit(0);
+                case 3 -> throw new Runtime("");
+                default -> java.lang.Runtime.getRuntime().addShutdownHook(Thread.currentThread());
+            }
+        } else {
+            //System.out.println("true in Check");
+        }
+    }
+
+    public static ArrayList<String> hwid = new ArrayList<>();
+
+    public static void init() throws IOException {
+        parse();
+
+        for (String s : PacketUtils.getHwidList()) {
+            if (!getHwidList().contains(s) || PacketUtils.getHwidList() == null) {
+                Random random = new Random();
+                int r = random.nextInt();
+
+                switch (r) {
+                    case 1 -> mc.close();
+                    case 2 -> System.exit(0);
+                    case 3 -> throw new Runtime("");
+                    default -> java.lang.Runtime.getRuntime().addShutdownHook(Thread.currentThread());
+                }
+            }
+        }
+
+        Atlas.addModules(
+            // Combat
+            new AutoCityRewrite(),
+            new AutoEz(),
+            new AutoMinecart(),
+            new AutoTotemRewrite(),
+            new BedBomb(),
+            new BTSurround(),
+            new CevBreaker(),
+            new FunnyAura(),
+            new MultiTask(),
+            new PistonAura(),
+            new SuperKnockback(),
+            new SurroundRewrite(),
+            new TNTAura(),
+            new VHAutoCrystal()
+        );
+
+        checked = true;
+    }
+
+    public static void parse() throws IOException {
+        URL url = new URL(Utils.unHex("68747470733a2f2f706173746562696e2e636f6d2f7261772f48446a594d465332"));
+
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(url.openStream()));
+        String line;
+        while ((line = bufferedReader.readLine()) != null) {
+            hwid.add(line);
+        }
+    }
+
+    public static ArrayList<String> getHwidList() {
+        return hwid;
     }
 
     public static double GetBedDmg(LivingEntity entity, Vec3d source) {

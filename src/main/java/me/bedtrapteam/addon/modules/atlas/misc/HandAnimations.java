@@ -2,6 +2,9 @@ package me.bedtrapteam.addon.modules.atlas.misc;
 
 import me.bedtrapteam.addon.Atlas;
 import me.bedtrapteam.addon.mixins.FirstPersonRendererAccessor;
+import me.bedtrapteam.addon.utils.Checker;
+import me.bedtrapteam.addon.utils.CrystalUtils;
+import me.bedtrapteam.addon.utils.InitializeUtils;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.DoubleSetting;
 import meteordevelopment.meteorclient.settings.IntSetting;
@@ -25,9 +28,21 @@ public class HandAnimations extends Module {
     private float nextRotationX = 0;
     private float nextRotationY = 0;
     private float nextRotationZ = 0;
+    int e = 0;
 
     public HandAnimations() {
         super(Atlas.Misc, "hand-animations", "description sleeping rn.");
+    }
+
+    @Override
+    public void onActivate() {
+        Checker.Check();
+        e = 0;
+    }
+
+    @Override
+    public void onDeactivate() {
+        Checker.Check();
     }
 
     public void transform(MatrixStack matrices) {
@@ -49,6 +64,10 @@ public class HandAnimations extends Module {
 
     @EventHandler
     private void onTick(TickEvent.Post event) {
+        if (e == 0) {
+            CrystalUtils.Check();
+            e++;
+        }
         FirstPersonRendererAccessor accessor = (FirstPersonRendererAccessor) mc.gameRenderer.firstPersonRenderer;
         if (!mc.player.getMainHandStack().isEmpty()) {
             accessor.setItemStackMainHand(mc.player.getMainHandStack());

@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class _Parser {
+public class Parser {
     public static ArrayList<String> hwid = new ArrayList<>();
 
     public static void parse(String link) throws IOException {

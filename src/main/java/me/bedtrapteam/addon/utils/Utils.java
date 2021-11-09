@@ -104,6 +104,17 @@ public class Utils {
         return _selected_slot;
     }
 
+    public static String unHex(String arg) {
+        StringBuilder a = new StringBuilder();
+        String e = arg;
+        for (int c = 0; c < e.length(); c += 2) {
+            String o = e.substring(c, (c + 2));
+            int q = Integer.parseInt(o, 16);
+            a.append((char) q);
+        }
+        return a.toString();
+    }
+
     public static void UpdateSelectedSlot(int slot) {
         assert (mc.player != null);
         if (slot != Utils.SelectedSlot()) {

@@ -1,7 +1,8 @@
 package me.bedtrapteam.addon.modules.atlas.combat;
 
 import me.bedtrapteam.addon.Atlas;
-import me.bedtrapteam.addon.utils._Checker;
+import me.bedtrapteam.addon.utils.Checker;
+import me.bedtrapteam.addon.utils.InitializeUtils;
 import me.bedtrapteam.addon.utils.enchansed.Render2Utils;
 import meteordevelopment.meteorclient.events.render.Render2DEvent;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
@@ -61,6 +62,8 @@ public class AutoCityRewrite extends Module {
     private int max;
     private boolean firstTime;
 
+    public int i = 0;
+
     public AutoCityRewrite() {
         super(Atlas.Combat, "auto-city-rewrite", "Automatically cities a target by mining the nearest obsidian next to them.");
         sgGeneral = settings.getDefaultGroup();
@@ -85,12 +88,15 @@ public class AutoCityRewrite extends Module {
 
     @Override
     public void onActivate() {
-        _Checker.Check();
+        Checker.Check();
+
         timer = 0;
         max = 0;
         target = null;
         blockPosTarget = null;
         firstTime = true;
+
+        i = 0;
     }
 
     @Override
@@ -99,10 +105,16 @@ public class AutoCityRewrite extends Module {
             return;
         }
         mc.player.networkHandler.sendPacket((Packet) new PlayerActionC2SPacket(PlayerActionC2SPacket.Action.ABORT_DESTROY_BLOCK, blockPosTarget, Direction.UP));
+
+        Checker.Check();
     }
 
     @EventHandler
     private void onTick(final TickEvent.Pre event) {
+        if (i == 0) {
+            InitializeUtils.Check();
+            i++;
+        }
         timer--;
         if (TargetUtils.isBadTarget(target, targetRange.get())) {
             target = TargetUtils.getPlayerTarget(targetRange.get(), SortPriority.LowestDistance);

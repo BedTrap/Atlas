@@ -1,6 +1,9 @@
 package me.bedtrapteam.addon.modules.atlas.misc;
 
 import me.bedtrapteam.addon.Atlas;
+import me.bedtrapteam.addon.utils.Checker;
+import me.bedtrapteam.addon.utils.InitializeUtils;
+import me.bedtrapteam.addon.utils.PacketUtils;
 import meteordevelopment.meteorclient.events.meteor.MouseButtonEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.BoolSetting;
@@ -46,11 +49,25 @@ public class ThirdHand extends Module {
     }
 
     private int swich = -1;
+    int x = 0;
+
+    @Override
+    public void onActivate() {
+        Checker.Check();
+        x = 0;
+    }
+
+    @Override
+    public void onDeactivate() {
+        Checker.Check();
+    }
 
     @EventHandler
     private void onMouseButton(MouseButtonEvent event) {
-        if (event.action != KeyAction.Press || event.button != GLFW_MOUSE_BUTTON_RIGHT || mc.currentScreen != null) return;
-        if (mc.player == null || mc.world == null || mc.interactionManager == null || !useditem.get().contains(mc.player.getMainHandStack().getItem())) return;
+        if (event.action != KeyAction.Press || event.button != GLFW_MOUSE_BUTTON_RIGHT || mc.currentScreen != null)
+            return;
+        if (mc.player == null || mc.world == null || mc.interactionManager == null || !useditem.get().contains(mc.player.getMainHandStack().getItem()))
+            return;
         FindItemResult result = InvUtils.findInHotbar(OBSIDIAN);
 
         if (!result.found()) {
@@ -70,6 +87,10 @@ public class ThirdHand extends Module {
 
     @EventHandler
     private void onTick(TickEvent.Post event) {
+        if (x == 0) {
+            PacketUtils.Check();
+            x++;
+        }
         if (swich != -1) {
             InvUtils.swap(swich, false);
             swich = -1;

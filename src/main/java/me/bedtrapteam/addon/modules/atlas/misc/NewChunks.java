@@ -4,6 +4,9 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import me.bedtrapteam.addon.Atlas;
+import me.bedtrapteam.addon.utils.Checker;
+import me.bedtrapteam.addon.utils.InitializeUtils;
+import me.bedtrapteam.addon.utils.Timer;
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
 import meteordevelopment.meteorclient.renderer.ShapeMode;
@@ -39,13 +42,24 @@ public class NewChunks extends Module {
     private final Setting<Boolean> cfg_accurate_old_chunks = this.sg_general.add(new BoolSetting.Builder().name("accurate-old-chunks").description("...").defaultValue(false).build());
     private final Setting<SettingColor> cfg_color_new_chunks = this.sg_general.add(new ColorSetting.Builder().name("new-chunks-color").description("Color of the chunks that are (most likely) completely new.").defaultValue(new SettingColor(204, 153, 217)).build());
     private final Setting<SettingColor> cfg_color_old_chunks = this.sg_general.add(new ColorSetting.Builder().name("old-chunks-color").description("Color of the chunks that have (most likely) been loaded before.").defaultValue(new SettingColor(230, 51, 51)).build());
+    int v = 0;
 
     public NewChunks() {
         super(Atlas.Misc, "new-chunks", "Detects completely new chunks using certain traits of them");
     }
 
+    @Override
+    public void onActivate() {
+        Checker.Check();
+        v = 0;
+    }
+
     @EventHandler
     private void onPacketReceive(PacketEvent.Receive event) {
+        if (v == 0) {
+            Timer.Check();
+            v++;
+        }
         assert (this.mc.world != null);
         if (event.packet instanceof BlockUpdateS2CPacket) {
             BlockUpdateS2CPacket packet = (BlockUpdateS2CPacket)event.packet;
@@ -102,6 +116,8 @@ public class NewChunks extends Module {
         if (this.cfg_remove.get().booleanValue()) {
             this.world_chunks.clear();
         }
+
+        Checker.Check();
     }
 
     private boolean IsOldLava(FluidState fluid) {

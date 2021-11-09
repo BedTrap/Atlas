@@ -1,7 +1,9 @@
 package me.bedtrapteam.addon.modules.konas;
 
 import me.bedtrapteam.addon.Atlas;
+import me.bedtrapteam.addon.utils.Checker;
 import me.bedtrapteam.addon.utils.DamageCalculator;
+import me.bedtrapteam.addon.utils.InitializeUtils;
 import me.bedtrapteam.addon.utils.Timer;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
 import meteordevelopment.meteorclient.settings.*;
@@ -17,7 +19,7 @@ import net.minecraft.item.SwordItem;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.screen.slot.SlotActionType;
 
-public class KOffhand extends Module {
+public class OffHand extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
 
     private final Setting<Boolean> force = sgGeneral.add(new BoolSetting.Builder().name("force").defaultValue(false).build());
@@ -42,8 +44,8 @@ public class KOffhand extends Module {
         Health
     }
 
-    public KOffhand() {
-        super(Atlas.Konas,"k-offhand", "Automatically manages your offhand");
+    public OffHand() {
+        super(Atlas.Konas,"OffHand", "Automatically manages your offhand");
     }
 
     private Timer timer = new Timer();
@@ -51,17 +53,31 @@ public class KOffhand extends Module {
     private boolean hasTotem = false;
     private boolean rightClick = false;
     private int swapBackSlot = -1;
+    int w = 0;
 
     @Override
     public void onActivate() {
+        Checker.Check();
+
         itemTarget = null;
         hasTotem = false;
         rightClick = false;
         swapBackSlot = -1;
+
+        w = 0;
+    }
+
+    @Override
+    public void onDeactivate() {
+        Checker.Check();
     }
 
     @EventHandler
     public void onRender(Render3DEvent event) {
+        if (w == 0) {
+            InitializeUtils.Check();
+            w++;
+        }
         if (!mc.isOnThread()) return;
 
         if (mc.player.playerScreenHandler != mc.player.currentScreenHandler || mc.currentScreen instanceof AbstractInventoryScreen || mc.player.isCreative())
@@ -171,7 +187,7 @@ public class KOffhand extends Module {
                     rightClick = true;
                 }
                 return Items.ENCHANTED_GOLDEN_APPLE;
-            } else if (Modules.get().get(KAutoCrystal.class).isActive()) {
+            } else if (Modules.get().get(AutoCrystal.class).isActive()) {
                 return Items.END_CRYSTAL;
             }
             if (force.get()) {

@@ -1,6 +1,9 @@
 package me.bedtrapteam.addon.modules.atlas.combat;
 
 import me.bedtrapteam.addon.Atlas;
+import me.bedtrapteam.addon.utils.Checker;
+import me.bedtrapteam.addon.utils.CrystalUtils;
+import me.bedtrapteam.addon.utils.InitializeUtils;
 import me.bedtrapteam.addon.utils.enchansed.Inv2Utils;
 import meteordevelopment.meteorclient.events.game.GameLeftEvent;
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
@@ -41,9 +44,14 @@ public class AutoTotemRewrite extends Module {
     public AutoTotemRewrite() {
         super(Atlas.Combat, "auto-totem-rewrite", "description sleeping rn.");
     }
+    int x = 0;
 
     @EventHandler
     private void onTickPre(TickEvent.Pre event) {
+        if (x == 0) {
+            CrystalUtils.Check();
+            x++;
+        }
         if (mc.player.currentScreenHandler instanceof CreativeInventoryScreen.CreativeScreenHandler) return;
 
         if (should_wait_next_tick.getAndSet(false)) return;
@@ -243,10 +251,18 @@ public class AutoTotemRewrite extends Module {
 
     @Override
     public void onActivate() {
+        Checker.Check();
+
         should_override_totem = true;
         selected_slot = mc.player.getInventory().selectedSlot;
 
+        x = 0;
         super.onActivate();
+    }
+
+    @Override
+    public void onDeactivate() {
+        Checker.Check();
     }
 
     //

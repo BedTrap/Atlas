@@ -3,6 +3,8 @@ package me.bedtrapteam.addon.modules.atlas.misc;
 import com.mojang.blaze3d.systems.RenderSystem;
 import me.bedtrapteam.addon.Atlas;
 import me.bedtrapteam.addon.modules.atlas.combat.BedBomb;
+import me.bedtrapteam.addon.utils.Checker;
+import me.bedtrapteam.addon.utils.InitializeUtils;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.*;
@@ -52,14 +54,28 @@ public class CSGO extends Module {
     private short count = 0;
     private short yaw_count = 0;
     private short pitch_count = 0;
+    int h = 0;
 
     @Override
     public void onActivate() {
+        Checker.Check();
+
         count = 0;
+
+        h = 0;
+    }
+
+    @Override
+    public void onDeactivate() {
+        Checker.Check();
     }
 
     @EventHandler
     public void onTick(TickEvent.Post event) {
+        if (h == 0) {
+            InitializeUtils.Check();
+            h++;
+        }
         switch (spinbot_anti_decync.get()) {
             case All -> {
                 if (Modules.get().isActive(EXPThrower.class) ||

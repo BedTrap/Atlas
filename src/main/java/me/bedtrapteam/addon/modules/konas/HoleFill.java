@@ -1,8 +1,11 @@
 package me.bedtrapteam.addon.modules.konas;
 
 import me.bedtrapteam.addon.Atlas;
+import me.bedtrapteam.addon.utils.Checker;
+import me.bedtrapteam.addon.utils.InitializeUtils;
 import me.bedtrapteam.addon.utils.InteractionUtil;
 import me.bedtrapteam.addon.utils.enchansed.Block2Utils;
+import me.bedtrapteam.addon.utils.enchansed.Render2Utils;
 import meteordevelopment.meteorclient.events.entity.player.PlayerMoveEvent;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
 import meteordevelopment.meteorclient.renderer.ShapeMode;
@@ -29,7 +32,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.StreamSupport;
 
-public class KHoleFill extends Module {
+public class HoleFill extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
 
     private final Setting<Boolean> rotate = sgGeneral.add(new BoolSetting.Builder().name("rotate").defaultValue(true).build());
@@ -48,13 +51,25 @@ public class KHoleFill extends Module {
         None, Always, Target
     }
 
-    public KHoleFill() {
-        super(Atlas.Konas, "k-hole-fill", "Automatically fill holes");
+    public HoleFill() {
+        super(Atlas.Konas, "hole-fill", "Automatically fill holes");
     }
 
     private Map<BlockPos, Long> renderPoses = new ConcurrentHashMap<>();
 
     private int tickCounter = 0;
+    int q = 0;
+
+    @Override
+    public void onActivate() {
+        Checker.Check();
+        q = 0;
+    }
+
+    @Override
+    public void onDeactivate() {
+        Checker.Check();
+    }
 
     @EventHandler
     public void onRender(Render3DEvent event) {
@@ -70,6 +85,10 @@ public class KHoleFill extends Module {
 
     @EventHandler
     public void onUpdateWalkingPlayer(PlayerMoveEvent event) {
+        if (q == 0) {
+            Render2Utils.Check();
+            q++;
+        }
         if (jumpDisable.get() && mc.player.prevY < mc.player.getY()) {
             toggle();
         }

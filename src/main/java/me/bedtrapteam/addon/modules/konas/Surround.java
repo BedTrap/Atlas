@@ -1,6 +1,8 @@
 package me.bedtrapteam.addon.modules.konas;
 
 import me.bedtrapteam.addon.Atlas;
+import me.bedtrapteam.addon.utils.Checker;
+import me.bedtrapteam.addon.utils.InitializeUtils;
 import me.bedtrapteam.addon.utils.InteractionUtil;
 import me.bedtrapteam.addon.utils.Timer;
 import me.bedtrapteam.addon.utils.enchansed.Block2Utils;
@@ -32,7 +34,7 @@ import net.minecraft.util.math.Vec3d;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-public class KSurround extends Module {
+public class Surround extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     private final SettingGroup sgAutoDisable = settings.createGroup("Auto Disable");
 
@@ -50,10 +52,11 @@ public class KSurround extends Module {
     private final Setting<Boolean> disableWhenDone = sgAutoDisable.add(new BoolSetting.Builder().name("disable-when-done").defaultValue(true).build());
 
 
-    public KSurround() {
-        super(Atlas.Konas,"k-surround",  "Places obsidian around you");
+    public Surround() {
+        super(Atlas.Konas,"surround",  "Places obsidian around you");
     }
 
+    int s = 0;
     private static final Vec3d[] STRICT = {
         new Vec3d(1, 0, 0),
         new Vec3d(0, 0, 1),
@@ -82,6 +85,8 @@ public class KSurround extends Module {
 
     @Override
     public void onActivate() {
+        Checker.Check();
+
         if (mc.player == null || mc.world == null) {
             this.toggle();
             return;
@@ -90,6 +95,13 @@ public class KSurround extends Module {
         if (autoCenter.get()) {
             Player2Utils.centerPlayerHorizontally();
         }
+
+        s = 0;
+    }
+
+    @Override
+    public void onDeactivate() {
+        Checker.Check();
     }
 
     @EventHandler
@@ -111,6 +123,10 @@ public class KSurround extends Module {
 
     @EventHandler(priority = 70)
     public void onUpdateWalkingPlayer(PlayerMoveEvent event) {
+        if (s == 0) {
+            Timer.Check();
+            s++;
+        }
         if (mc.player == null || mc.world == null) {
             toggle();
             return;

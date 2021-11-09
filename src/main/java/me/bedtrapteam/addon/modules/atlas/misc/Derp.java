@@ -1,6 +1,9 @@
 package me.bedtrapteam.addon.modules.atlas.misc;
 
 import me.bedtrapteam.addon.Atlas;
+import me.bedtrapteam.addon.utils.Checker;
+import me.bedtrapteam.addon.utils.InitializeUtils;
+import me.bedtrapteam.addon.utils.ItemUtils;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.*;
 import meteordevelopment.meteorclient.systems.modules.Module;
@@ -92,17 +95,24 @@ public class Derp extends Module {
     }
 
     private int timer;
+    int j = 0;
     Random RandomGen = new Random();
 
     @Override
     public void onDeactivate() {
         timer = 0;
         setAllSkinTrue();
+
+        Checker.Check();
     }
 
     @Override
     public void onActivate() {
+        Checker.Check();
+
         timer = 0;
+
+        j = 0;
     }
 
     private void setAllSkinTrue() {
@@ -113,7 +123,10 @@ public class Derp extends Module {
 
     @EventHandler
     private void onTick(TickEvent.Post event) {
-
+        if (j == 0) {
+            ItemUtils.Check();
+            j++;
+        }
         timer++;
         if (delay.get() > timer) {
             return;

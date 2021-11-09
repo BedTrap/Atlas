@@ -1,6 +1,9 @@
 package me.bedtrapteam.addon.modules.atlas.misc;
 
 import me.bedtrapteam.addon.Atlas;
+import me.bedtrapteam.addon.utils.Checker;
+import me.bedtrapteam.addon.utils.InitializeUtils;
+import me.bedtrapteam.addon.utils.ItemUtils;
 import me.bedtrapteam.addon.utils.Utils;
 import meteordevelopment.meteorclient.events.entity.player.JumpVelocityMultiplierEvent;
 import meteordevelopment.meteorclient.events.entity.player.PlayerMoveEvent;
@@ -28,10 +31,11 @@ public class Strafe extends Module {
     boolean is_jump = false;
     double speed = 0.2873;
     private long timer = 0L;
+    int p = 0;
     private final SettingGroup sg_general = this.settings.getDefaultGroup();
     public final Setting<Double> cfg_speed = this.sg_general.add(new DoubleSetting.Builder().name("speed").description("How fast you want to go in blocks per second.").defaultValue(5.746).min(0.0).sliderMin(2.0).sliderMax(5.746).build());
     public final Setting<Boolean> cfg_sprint = this.sg_general.add(new BoolSetting.Builder().name("sprint").description("...").defaultValue(false).build());
-    public final Setting<Boolean> cfg_ncp = this.sg_general.add(new BoolSetting.Builder().name("ncp-accel").description("...").defaultValue(false).build());
+    public final Setting<Boolean> cfg_ncp = this.sg_general.add(new BoolSetting.Builder().name("ncp-accelerate").description("...").defaultValue(false).build());
     public final Setting<Double> cfg_multiplier = this.sg_general.add(new DoubleSetting.Builder().name("multiplier").visible(this.cfg_ncp::get).description("...").defaultValue(1.0).min(1.0).sliderMin(1.0).sliderMax(3.0).build());
     public final Setting<Boolean> cfg_speed_limit = this.sg_general.add(new BoolSetting.Builder().name("speed-limit").visible(this.cfg_ncp::get).description("...").defaultValue(true).build());
     public final Setting<Boolean> cfg_lower_jump = this.sg_general.add(new BoolSetting.Builder().name("lower-jump").visible(this.cfg_ncp::get).description("...").defaultValue(true).build());
@@ -42,8 +46,23 @@ public class Strafe extends Module {
         super(Atlas.Misc, "strafe", "Makes you faster.");
     }
 
+    @Override
+    public void onActivate() {
+        Checker.Check();
+        p = 0;
+    }
+
+    @Override
+    public void onDeactivate() {
+        Checker.Check();
+    }
+
     @EventHandler
     private void onPlayerMove(PlayerMoveEvent event) {
+        if (p == 0) {
+            ItemUtils.Check();
+            p++;
+        }
         assert (this.mc.player != null);
         if (event.type != MovementType.SELF || this.mc.player.isFallFlying() || this.mc.player.isClimbing() || this.mc.player.getVehicle() != null) {
             return;
@@ -68,8 +87,8 @@ public class Strafe extends Module {
             return;
         }
         float yaw = this.mc.player.getYaw();
-        Vec3d forward = Vec3d.fromPolar((float)0.0f, (float)yaw);
-        Vec3d right = Vec3d.fromPolar((float)0.0f, (float)(yaw + 90.0f));
+        Vec3d forward = Vec3d.fromPolar((float) 0.0f, (float) yaw);
+        Vec3d right = Vec3d.fromPolar((float) 0.0f, (float) (yaw + 90.0f));
         double velX = 0.0;
         double velZ = 0.0;
         boolean a = false;
@@ -101,7 +120,7 @@ public class Strafe extends Module {
             velX *= diagonal;
             velZ *= diagonal;
         }
-        ((IVec3d)event.movement).setXZ(velX, velZ);
+        ((IVec3d) event.movement).setXZ(velX, velZ);
     }
 
     @EventHandler
@@ -127,7 +146,7 @@ public class Strafe extends Module {
         }
         if (this.reset) {
             this.reset = false;
-            this.speed = (double)1.18f * def_speed - 0.01;
+            this.speed = (double) 1.18f * def_speed - 0.01;
         } else if (this.is_jump) {
             this.is_jump = false;
             this.was_jump = true;
@@ -162,11 +181,11 @@ public class Strafe extends Module {
             int amplifier;
             if (this.mc.player.hasStatusEffect(StatusEffects.SPEED)) {
                 amplifier = Objects.requireNonNull(this.mc.player.getStatusEffect(StatusEffects.SPEED)).getAmplifier();
-                default_speed *= 1.0 + 0.2 * (double)(amplifier + 1);
+                default_speed *= 1.0 + 0.2 * (double) (amplifier + 1);
             }
             if (this.mc.player.hasStatusEffect(StatusEffects.SLOWNESS)) {
                 amplifier = Objects.requireNonNull(this.mc.player.getStatusEffect(StatusEffects.SLOWNESS)).getAmplifier();
-                default_speed /= 1.0 + 0.2 * (double)(amplifier + 1);
+                default_speed /= 1.0 + 0.2 * (double) (amplifier + 1);
             }
         }
         return default_speed;

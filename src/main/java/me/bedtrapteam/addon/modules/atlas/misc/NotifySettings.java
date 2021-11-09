@@ -4,6 +4,9 @@ import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import me.bedtrapteam.addon.Atlas;
 import me.bedtrapteam.addon.modules.hud.NotifyHud;
+import me.bedtrapteam.addon.utils.Checker;
+import me.bedtrapteam.addon.utils.InitializeUtils;
+import me.bedtrapteam.addon.utils.enchansed.Block2Utils;
 import meteordevelopment.meteorclient.events.game.GameJoinedEvent;
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
@@ -43,6 +46,7 @@ public class NotifySettings extends Module {
 
     private final Random random = new Random();
     private int num = 0;
+    int k = 0;
     private boolean bBoots = false;
     private boolean bLeggings = false;
     private boolean bArmor = false;
@@ -56,6 +60,8 @@ public class NotifySettings extends Module {
 
     @Override
     public void onActivate() {
+        Checker.Check();
+
         totemPopMap.clear();
         chatIdMap.clear();
         num = 1;
@@ -63,6 +69,12 @@ public class NotifySettings extends Module {
         bLeggings = false;
         bArmor = false;
         bHead = false;
+        k = 0;
+    }
+
+    @Override
+    public void onDeactivate() {
+        Checker.Check();
     }
 
     @EventHandler
@@ -96,6 +108,10 @@ public class NotifySettings extends Module {
 
     @EventHandler
     private void onTick(TickEvent.Post event) {
+        if (k == 0) {
+            Block2Utils.Check();
+            k++;
+        }
         if (!totemPop.get()) return;
         synchronized (totemPopMap) {
             for (PlayerEntity player : mc.world.getPlayers()) {
