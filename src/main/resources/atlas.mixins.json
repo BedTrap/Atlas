@@ -1,0 +1,19 @@
+{
+  "required": true,
+  "package": "me.bedtrapteam.addon.mixins",
+  "compatibilityLevel": "JAVA_16",
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "mixins": [
+    "CameraMixin",
+    "ChatUtilsMixin",
+    "FirstPersonRendererAccessor",
+    "HeldItemRenderenMixin",
+    "MinecraftoClientMixin",
+    "PlayerInteractEntityC2SPacketAccessor",
+    "accessors.PlayerInteractEntityC2SPacketAccessor"
+  ]
+}

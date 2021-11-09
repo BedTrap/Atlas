@@ -1,23 +1,24 @@
 {
   "schemaVersion": 1,
-  "id": "nigger-addon",
+  "id": "atlas-addon",
   "version": "${version}",
-  "name": "n1gger++",
+  "name": "Atlas",
   "description": "The best paid addon for Meteor Client.",
   "authors": [
     "EurekaEffect",
     "Kirigaya"
   ],
-  "icon": "assets/nigger/icon.png",
+  "icon": "assets/atlas/icon.png",
   "environment": "client",
   "entrypoints": {
     "meteor": [
-      "me.bedtrapteam.addon.Nigger"
+      "me.bedtrapteam.addon.Atlas"
     ]
   },
   "mixins": [
-    "nigger.mixins.json"
+    "atlas.mixins.json"
   ],
+  "accessWidener": "atlas.accesswidener",
   "custom": {
     "meteor-client:color": "225,25,25"
   },

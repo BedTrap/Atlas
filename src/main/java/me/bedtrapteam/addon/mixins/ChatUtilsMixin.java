@@ -14,13 +14,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class ChatUtilsMixin {
     @Inject(method = "getPrefix", at = @At("HEAD"), cancellable = true, remap = false)
     private static void getPrefix(CallbackInfoReturnable<BaseText> cir) {
-        BaseText PREFIX = new LiteralText("n1gger++");
+        BaseText PREFIX = new LiteralText("Atlas");
         BaseText prefix = new LiteralText("");
-        PREFIX.setStyle(PREFIX.getStyle().withFormatting(Formatting.GRAY));
-        prefix.setStyle(prefix.getStyle().withFormatting(Formatting.DARK_GRAY));
-        prefix.append("/");
+        PREFIX.setStyle(PREFIX.getStyle().withFormatting(Formatting.AQUA));
+        prefix.setStyle(prefix.getStyle().withFormatting(Formatting.DARK_AQUA));
+        prefix.append("<");
         prefix.append(PREFIX);
-        prefix.append("/ ");
+        prefix.append("> ");
         cir.setReturnValue(prefix);
     }
 }

@@ -2,13 +2,16 @@ package me.bedtrapteam.addon.utils;
 
 public class Timer {
     private long nanoTime;
+    private long time;
 
     public Timer() {
         nanoTime = -1L;
+        time = System.currentTimeMillis();
     }
 
     public void reset() {
         nanoTime = System.nanoTime();
+        time = System.currentTimeMillis();
     }
 
     public void setTicks(final long ticks) {
@@ -133,5 +136,17 @@ public class Timer {
 
     public long convertMillisToSec(final long time) {
         return time / 1000L;
+    }
+
+    public boolean hasPassed(double ms) {
+        return System.currentTimeMillis() - time >= ms;
+    }
+
+    public long getTime() {
+        return time;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
     }
 }

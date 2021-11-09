@@ -1,6 +1,6 @@
 package me.bedtrapteam.addon.mixins;
 
-import me.bedtrapteam.addon.modules.InstantSneak;
+import me.bedtrapteam.addon.modules.atlas.misc.InstantSneak;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import net.minecraft.client.render.Camera;
 import net.minecraft.entity.Entity;
