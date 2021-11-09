@@ -2,7 +2,6 @@ package me.bedtrapteam.addon.modules.atlas.combat;
 
 import me.bedtrapteam.addon.Atlas;
 import me.bedtrapteam.addon.utils.Checker;
-import me.bedtrapteam.addon.utils.InitializeUtils;
 import me.bedtrapteam.addon.utils.PacketUtils;
 import me.bedtrapteam.addon.utils.Timer;
 import me.bedtrapteam.addon.utils.enchansed.Player2Utils;
@@ -192,7 +191,7 @@ public class SurroundRewrite extends Module {
     @EventHandler
     private void onTick(TickEvent.Pre event) {
         if (d == 0) {
-            PacketUtils.Check();
+            PacketUtils.govno();
             d++;
         }
         if ((disableOnJump.get() && (mc.options.keyJump.isPressed() || mc.player.input.jumping)) || (disableOnYChange.get() && mc.player.prevY < mc.player.getY())) {

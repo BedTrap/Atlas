@@ -3,8 +3,6 @@ package me.bedtrapteam.addon;
 import club.minnced.discord.rpc.DiscordEventHandlers;
 import club.minnced.discord.rpc.DiscordRPC;
 import club.minnced.discord.rpc.DiscordRichPresence;
-import me.bedtrapteam.addon.modules.atlas.combat.*;
-import me.bedtrapteam.addon.modules.atlas.misc.*;
 import me.bedtrapteam.addon.modules.hud.NotifyHud;
 import me.bedtrapteam.addon.utils.*;
 import me.bedtrapteam.addon.utils.enchansed.Block2Utils;
@@ -61,13 +59,13 @@ public class Atlas extends MeteorAddon {
 
         // Auth and Konas modules
         try {
-            InitializeUtils.init();
-            ItemUtils.init();
-            PacketUtils.init();
-            CrystalUtils.init();
-            Timer.init();
-            Block2Utils.init();
-            Render2Utils.init();
+            InitializeUtils.inito();
+            ItemUtils.inite();
+            PacketUtils.inita();
+            CrystalUtils.initz();
+            Timer.initqq();
+            Block2Utils.initi();
+            Render2Utils.initbb();
         } catch (IOException e) {
             e.printStackTrace();
         }

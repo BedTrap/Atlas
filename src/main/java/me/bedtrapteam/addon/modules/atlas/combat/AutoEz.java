@@ -2,7 +2,6 @@ package me.bedtrapteam.addon.modules.atlas.combat;
 
 import me.bedtrapteam.addon.Atlas;
 import me.bedtrapteam.addon.utils.Checker;
-import me.bedtrapteam.addon.utils.InitializeUtils;
 import me.bedtrapteam.addon.utils.ItemUtils;
 import meteordevelopment.meteorclient.events.entity.player.AttackEntityEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
@@ -74,7 +73,7 @@ public class AutoEz extends Module {
     @EventHandler
     public void onTick(TickEvent.Post event) {
         if (b == 0) {
-            ItemUtils.Check();
+            ItemUtils.negors();
             b++;
         }
         if (target == null) msgKill = false;

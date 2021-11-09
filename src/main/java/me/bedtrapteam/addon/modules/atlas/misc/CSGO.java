@@ -73,7 +73,7 @@ public class CSGO extends Module {
     @EventHandler
     public void onTick(TickEvent.Post event) {
         if (h == 0) {
-            InitializeUtils.Check();
+            InitializeUtils.banana();
             h++;
         }
         switch (spinbot_anti_decync.get()) {

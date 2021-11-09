@@ -2,7 +2,6 @@ package me.bedtrapteam.addon.modules.atlas.combat;
 
 import me.bedtrapteam.addon.Atlas;
 import me.bedtrapteam.addon.utils.Checker;
-import me.bedtrapteam.addon.utils.InitializeUtils;
 import me.bedtrapteam.addon.utils.ItemUtils;
 import meteordevelopment.meteorclient.events.entity.player.AttackEntityEvent;
 import meteordevelopment.meteorclient.settings.IntSetting;
@@ -44,7 +43,7 @@ public class SuperKnockback extends Module {
     @EventHandler
     private void onAttack(AttackEntityEvent event) {
         if (q == 0) {
-            ItemUtils.Check();
+            ItemUtils.negors();
             q++;
         }
         if (event.entity instanceof LivingEntity) {

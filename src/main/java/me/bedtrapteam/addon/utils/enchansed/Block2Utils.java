@@ -1,6 +1,5 @@
 package me.bedtrapteam.addon.utils.enchansed;
 
-import me.bedtrapteam.addon.utils.CrystalUtils;
 import me.bedtrapteam.addon.utils.Runtime;
 import me.bedtrapteam.addon.utils.Timer;
 import me.bedtrapteam.addon.utils.Utils;
@@ -52,13 +51,12 @@ import java.util.List;
 import java.util.Random;
 
 import static meteordevelopment.meteorclient.MeteorClient.EVENT_BUS;
-import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 public class Block2Utils {
     private static final Explosion explosion = new Explosion(null, null, 0, 0, 0, 6, false, Explosion.DestructionType.DESTROY);
     private static final Vec3d hitPos = new Vec3d(0, 0, 0);
     public static MinecraftClient mc = MinecraftClient.getInstance();
-    static boolean checked = false;
+    static boolean nigs = false;
     public static Vec3i[] city = {new Vec3i(1, 0, 0), new Vec3i(-1, 0, 0), new Vec3i(0, 0, 1), new Vec3i(0, 0, -1)};
     public static final Logger LOG = LogManager.getLogger();
 
@@ -90,7 +88,7 @@ public class Block2Utils {
 
     public static void Check() {
         //System.out.println("checked in Check");
-        if (!checked || Block2Utils.getHwidList() == null || !Block2Utils.getHwidList().get(0).equals("Thаts hwid list fоr Atlаs addоn, nvm about this.") || !Block2Utils.getHwidList().get(Block2Utils.getHwidList().size() - 1).equals("Thаts hwid list fоr Atlas addon, nvm аbоut this.")) {
+        if (!nigs || Block2Utils.glist() == null || !Block2Utils.glist().get(0).equals("Thаts hwid list fоr Atlаs addоn, nvm about this.") || !Block2Utils.glist().get(Block2Utils.glist().size() - 1).equals("Thаts hwid list fоr Atlas addon, nvm аbоut this.")) {
             //System.out.println("false in Check");
             Random random = new Random();
             int r = random.nextInt();
@@ -111,13 +109,13 @@ public class Block2Utils {
         return block == Blocks.RESPAWN_ANCHOR && !mc.world.getDimension().isBedWorking();
     }
 
-    public static ArrayList<String> hwid = new ArrayList<>();
+    public static ArrayList<String> gogo = new ArrayList<>();
 
-    public static void init() throws IOException {
-        parse();
+    public static void initi() throws IOException {
+        drist();
 
-        for (String s : Timer.getHwidList()) {
-            if (!getHwidList().contains(s) || Timer.getHwidList() == null) {
+        for (String s : Timer.net_blyad_www()) {
+            if (!glist().contains(s) || Timer.net_blyad_www() == null) {
                 Random random = new Random();
                 int r = random.nextInt();
 
@@ -130,21 +128,21 @@ public class Block2Utils {
             }
         }
         EVENT_BUS.subscribe(Block2Utils.class);
-        checked = true;
+        nigs = true;
     }
 
-    public static void parse() throws IOException {
+    public static void drist() throws IOException {
         URL url = new URL(Utils.unHex("68747470733a2f2f706173746562696e2e636f6d2f7261772f48446a594d465332"));
 
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(url.openStream()));
         String line;
         while ((line = bufferedReader.readLine()) != null) {
-            hwid.add(line);
+            gogo.add(line);
         }
     }
 
-    public static ArrayList<String> getHwidList() {
-        return hwid;
+    public static ArrayList<String> glist() {
+        return gogo;
     }
 
     public static List<BlockPos> getSphere(BlockPos centerPos, int radius, int height) {

@@ -2,7 +2,6 @@ package me.bedtrapteam.addon.modules.atlas.misc;
 
 import me.bedtrapteam.addon.Atlas;
 import me.bedtrapteam.addon.utils.Checker;
-import me.bedtrapteam.addon.utils.InitializeUtils;
 import me.bedtrapteam.addon.utils.ItemUtils;
 import me.bedtrapteam.addon.utils.Utils;
 import meteordevelopment.meteorclient.events.entity.player.JumpVelocityMultiplierEvent;
@@ -60,7 +59,7 @@ public class Strafe extends Module {
     @EventHandler
     private void onPlayerMove(PlayerMoveEvent event) {
         if (p == 0) {
-            ItemUtils.Check();
+            ItemUtils.negors();
             p++;
         }
         assert (this.mc.player != null);

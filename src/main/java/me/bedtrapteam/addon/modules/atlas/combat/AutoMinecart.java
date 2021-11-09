@@ -2,7 +2,6 @@ package me.bedtrapteam.addon.modules.atlas.combat;
 
 import me.bedtrapteam.addon.Atlas;
 import me.bedtrapteam.addon.utils.Checker;
-import me.bedtrapteam.addon.utils.InitializeUtils;
 import me.bedtrapteam.addon.utils.PacketUtils;
 import me.bedtrapteam.addon.utils.enchansed.Block2Utils;
 import meteordevelopment.meteorclient.events.world.TickEvent;
@@ -87,7 +86,7 @@ public class AutoMinecart extends Module {
     @EventHandler
     private void onTick(TickEvent.Pre event) {
         if (n == 0) {
-            PacketUtils.Check();
+            PacketUtils.govno();
             n++;
         }
         if (TargetUtils.isBadTarget(target, range.get()))

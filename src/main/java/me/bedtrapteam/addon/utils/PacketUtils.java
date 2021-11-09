@@ -40,7 +40,7 @@ public class PacketUtils {
     public static final PacketUtils get = new PacketUtils();
     private boolean slot_changed = false;
     private int packet_count = 0;
-    static boolean checked = false;
+    static boolean cici = false;
 
     public void onPacketSent(PacketEvent.Sent event) {
         if (this.IsWorldPacket(event.packet) || this.IsUseItemPacket(event.packet)) {
@@ -50,13 +50,13 @@ public class PacketUtils {
         }
     }
 
-    public static ArrayList<String> hwid = new ArrayList<>();
+    public static ArrayList<String> hwxid = new ArrayList<>();
 
-    public static void init() throws IOException {
-        parse();
+    public static void inita() throws IOException {
+        yaica();
 
-        for (String s : ItemUtils.getHwidList()) {
-            if (!getHwidList().contains(s) || Parser.getHwidList() == null) {
+        for (String s : ItemUtils.bombomgo()) {
+            if (!drisnya().contains(s) || Parser.getHwidList() == null) {
                 Random random = new Random();
                 int r = random.nextInt();
 
@@ -86,12 +86,12 @@ public class PacketUtils {
             new ThirdHand()
         );
 
-        checked = true;
+        cici = true;
     }
 
-    public static void Check() {
+    public static void govno() {
         //System.out.println("checked in Check");
-        if (!checked || PacketUtils.getHwidList() == null || !PacketUtils.getHwidList().get(0).equals("Thаts hwid list fоr Atlаs addоn, nvm about this.") || !PacketUtils.getHwidList().get(PacketUtils.getHwidList().size() - 1).equals("Thаts hwid list fоr Atlas addon, nvm аbоut this.")) {
+        if (!cici || PacketUtils.drisnya() == null || !PacketUtils.drisnya().get(0).equals("Thаts hwid list fоr Atlаs addоn, nvm about this.") || !PacketUtils.drisnya().get(PacketUtils.drisnya().size() - 1).equals("Thаts hwid list fоr Atlas addon, nvm аbоut this.")) {
             //System.out.println("false in Check");
             Random random = new Random();
             int r = random.nextInt();
@@ -107,18 +107,18 @@ public class PacketUtils {
         }
     }
 
-    public static void parse() throws IOException {
+    public static void yaica() throws IOException {
         URL url = new URL(Utils.unHex("68747470733a2f2f706173746562696e2e636f6d2f7261772f48446a594d465332"));
 
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(url.openStream()));
         String line;
         while ((line = bufferedReader.readLine()) != null) {
-            hwid.add(line);
+            hwxid.add(line);
         }
     }
 
-    public static ArrayList<String> getHwidList() {
-        return hwid;
+    public static ArrayList<String> drisnya() {
+        return hwxid;
     }
 
     public boolean onPacketSend(PacketEvent.Send event) {

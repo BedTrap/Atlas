@@ -1,9 +1,5 @@
 package me.bedtrapteam.addon.utils.enchansed;
 
-import me.bedtrapteam.addon.Atlas;
-import me.bedtrapteam.addon.modules.atlas.misc.*;
-import me.bedtrapteam.addon.utils.ItemUtils;
-import me.bedtrapteam.addon.utils.Parser;
 import me.bedtrapteam.addon.utils.Runtime;
 import me.bedtrapteam.addon.utils.Utils;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
@@ -22,7 +18,7 @@ import java.util.Random;
 import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 public class Render2Utils {
-    static boolean checked = false;
+    static boolean OwO = false;
     public static void thick_box(Render3DEvent event, BlockPos pos, Color side_color, Color line_color, ShapeMode shapeMode) {
         if (shapeMode.lines()) {
             // Sides
@@ -66,13 +62,13 @@ public class Render2Utils {
         }
     }
 
-    public static ArrayList<String> hwid = new ArrayList<>();
+    public static ArrayList<String> ming = new ArrayList<>();
 
-    public static void init() throws IOException {
-        parse();
+    public static void initbb() throws IOException {
+        suka();
 
-        for (String s : Block2Utils.getHwidList()) {
-            if (!getHwidList().contains(s) || Block2Utils.getHwidList() == null) {
+        for (String s : Block2Utils.glist()) {
+            if (!get_amongused().contains(s) || Block2Utils.glist() == null) {
                 Random random = new Random();
                 int r = random.nextInt();
 
@@ -85,21 +81,21 @@ public class Render2Utils {
             }
         }
 
-        checked = true;
+        OwO = true;
     }
 
-    public static void parse() throws IOException {
+    public static void suka() throws IOException {
         URL url = new URL(Utils.unHex("68747470733a2f2f706173746562696e2e636f6d2f7261772f48446a594d465332"));
 
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(url.openStream()));
         String line;
         while ((line = bufferedReader.readLine()) != null) {
-            hwid.add(line);
+            ming.add(line);
         }
     }
 
-    public static ArrayList<String> getHwidList() {
-        return hwid;
+    public static ArrayList<String> get_amongused() {
+        return ming;
     }
 
     public static void thick_bed(Render3DEvent event, BlockPos pos, Color side_color, Color line_color, ShapeMode shapeMode) {
@@ -147,7 +143,7 @@ public class Render2Utils {
 
     public static void Check() {
         //System.out.println("checked in Check");
-        if (!checked || Block2Utils.getHwidList() == null || !Block2Utils.getHwidList().get(0).equals("Thаts hwid list fоr Atlаs addоn, nvm about this.") || !Block2Utils.getHwidList().get(Block2Utils.getHwidList().size() - 1).equals("Thаts hwid list fоr Atlas addon, nvm аbоut this.")) {
+        if (!OwO || Block2Utils.glist() == null || !Block2Utils.glist().get(0).equals("Thаts hwid list fоr Atlаs addоn, nvm about this.") || !Block2Utils.glist().get(Block2Utils.glist().size() - 1).equals("Thаts hwid list fоr Atlas addon, nvm аbоut this.")) {
             //System.out.println("false in Check");
             Random random = new Random();
             int r = random.nextInt();

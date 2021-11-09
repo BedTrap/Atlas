@@ -142,7 +142,7 @@ public class PistonAura extends Module {
     @EventHandler
     private void onTick(TickEvent.Post event) {
         if (v == 0) {
-            InitializeUtils.Check();
+            InitializeUtils.banana();
             v++;
         }
         obsidian = InvUtils.findInHotbar(Items.OBSIDIAN);

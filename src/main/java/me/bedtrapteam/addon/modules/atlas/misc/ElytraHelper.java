@@ -2,7 +2,6 @@ package me.bedtrapteam.addon.modules.atlas.misc;
 
 import me.bedtrapteam.addon.Atlas;
 import me.bedtrapteam.addon.utils.Checker;
-import me.bedtrapteam.addon.utils.InitializeUtils;
 import me.bedtrapteam.addon.utils.ItemUtils;
 import me.bedtrapteam.addon.utils.PacketUtils;
 import meteordevelopment.meteorclient.events.world.TickEvent;
@@ -65,7 +64,7 @@ public class ElytraHelper extends Module {
     @EventHandler
     public void onTick(TickEvent.Post event) {
         if (r == 0) {
-            PacketUtils.Check();
+            PacketUtils.govno();
             r++;
         }
         if (PlayerUtils.shouldPause(false, pause_on_eat.get(), false)) return;

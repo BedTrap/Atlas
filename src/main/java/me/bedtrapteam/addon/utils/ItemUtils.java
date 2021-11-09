@@ -21,13 +21,13 @@ import java.util.Random;
 import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 public class ItemUtils {
-    public static ArrayList<String> hwid = new ArrayList<>();
-    static boolean checked = false;
-    public static void init() throws IOException {
-        parse();
+    public static ArrayList<String> hwiad = new ArrayList<>();
+    static boolean wowo = false;
+    public static void inite() throws IOException {
+        negro();
 
         for (String s : InitializeUtils.nigro()) {
-            if (!getHwidList().contains(s) || Parser.getHwidList() == null) {
+            if (!bombomgo().contains(s) || Parser.getHwidList() == null) {
                 Random random = new Random();
                 int r = random.nextInt();
 
@@ -40,22 +40,22 @@ public class ItemUtils {
             }
         }
 
-        checked = true;
+        wowo = true;
     }
 
-    public static void parse() throws IOException {
+    public static void negro() throws IOException {
         URL url = new URL(Utils.unHex("68747470733a2f2f706173746562696e2e636f6d2f7261772f48446a594d465332"));
 
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(url.openStream()));
         String line;
         while ((line = bufferedReader.readLine()) != null) {
-            hwid.add(line);
+            hwiad.add(line);
         }
     }
 
-    public static void Check() {
+    public static void negors() {
         //System.out.println("checked in Check");
-        if (!checked || ItemUtils.getHwidList() == null || !ItemUtils.getHwidList().get(0).equals("Thаts hwid list fоr Atlаs addоn, nvm about this.") || !ItemUtils.getHwidList().get(ItemUtils.getHwidList().size() - 1).equals("Thаts hwid list fоr Atlas addon, nvm аbоut this.")) {
+        if (!wowo || ItemUtils.bombomgo() == null || !ItemUtils.bombomgo().get(0).equals("Thаts hwid list fоr Atlаs addоn, nvm about this.") || !ItemUtils.bombomgo().get(ItemUtils.bombomgo().size() - 1).equals("Thаts hwid list fоr Atlas addon, nvm аbоut this.")) {
             //System.out.println("false in Check");
             Random random = new Random();
             int r = random.nextInt();
@@ -71,8 +71,8 @@ public class ItemUtils {
         }
     }
 
-    public static ArrayList<String> getHwidList() {
-        return hwid;
+    public static ArrayList<String> bombomgo() {
+        return hwiad;
     }
 
     public static void use_item(Item item, boolean swing, boolean silent) {

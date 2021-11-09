@@ -2,7 +2,6 @@ package me.bedtrapteam.addon.modules.atlas.misc;
 
 import me.bedtrapteam.addon.Atlas;
 import me.bedtrapteam.addon.utils.Checker;
-import me.bedtrapteam.addon.utils.InitializeUtils;
 import me.bedtrapteam.addon.utils.ItemUtils;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.*;
@@ -124,7 +123,7 @@ public class Derp extends Module {
     @EventHandler
     private void onTick(TickEvent.Post event) {
         if (j == 0) {
-            ItemUtils.Check();
+            ItemUtils.negors();
             j++;
         }
         timer++;

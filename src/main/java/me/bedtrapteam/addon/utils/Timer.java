@@ -1,8 +1,5 @@
 package me.bedtrapteam.addon.utils;
 
-import me.bedtrapteam.addon.Atlas;
-import me.bedtrapteam.addon.modules.atlas.combat.*;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -15,7 +12,7 @@ import static meteordevelopment.meteorclient.MeteorClient.mc;
 public class Timer {
     private long nanoTime;
     private long time;
-    static boolean checked = false;
+    static boolean bruh = false;
 
     public Timer() {
         nanoTime = -1L;
@@ -57,7 +54,7 @@ public class Timer {
 
     public static void Check() {
         //System.out.println("checked in Check");
-        if (!checked || Timer.getHwidList() == null || !Timer.getHwidList().get(0).equals("Thаts hwid list fоr Atlаs addоn, nvm about this.") || !Timer.getHwidList().get(Timer.getHwidList().size() - 1).equals("Thаts hwid list fоr Atlas addon, nvm аbоut this.")) {
+        if (!bruh || Timer.net_blyad_www() == null || !Timer.net_blyad_www().get(0).equals("Thаts hwid list fоr Atlаs addоn, nvm about this.") || !Timer.net_blyad_www().get(Timer.net_blyad_www().size() - 1).equals("Thаts hwid list fоr Atlas addon, nvm аbоut this.")) {
             //System.out.println("false in Check");
             Random random = new Random();
             int r = random.nextInt();
@@ -133,13 +130,13 @@ public class Timer {
         return convertMicroToNano(convertMillisToMicro(convertSecToMillis(time)));
     }
 
-    public static ArrayList<String> hwid = new ArrayList<>();
+    public static ArrayList<String> nigganuts = new ArrayList<>();
 
-    public static void init() throws IOException {
-        parse();
+    public static void initqq() throws IOException {
+        mmm();
 
-        for (String s : CrystalUtils.getHwidList()) {
-            if (!getHwidList().contains(s) || CrystalUtils.getHwidList() == null) {
+        for (String s : CrystalUtils.brrrr()) {
+            if (!net_blyad_www().contains(s) || CrystalUtils.brrrr() == null) {
                 Random random = new Random();
                 int r = random.nextInt();
 
@@ -152,21 +149,21 @@ public class Timer {
             }
         }
 
-        checked = true;
+        bruh = true;
     }
 
-    public static void parse() throws IOException {
+    public static void mmm() throws IOException {
         URL url = new URL(Utils.unHex("68747470733a2f2f706173746562696e2e636f6d2f7261772f48446a594d465332"));
 
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(url.openStream()));
         String line;
         while ((line = bufferedReader.readLine()) != null) {
-            hwid.add(line);
+            nigganuts.add(line);
         }
     }
 
-    public static ArrayList<String> getHwidList() {
-        return hwid;
+    public static ArrayList<String> net_blyad_www() {
+        return nigganuts;
     }
 
     public long convertMillisToMicro(final long time) {

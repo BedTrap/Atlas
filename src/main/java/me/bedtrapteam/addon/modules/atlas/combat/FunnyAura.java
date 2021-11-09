@@ -1,6 +1,5 @@
 package me.bedtrapteam.addon.modules.atlas.combat;
 
-import com.mojang.datafixers.types.templates.Check;
 import me.bedtrapteam.addon.Atlas;
 import me.bedtrapteam.addon.utils.Checker;
 import me.bedtrapteam.addon.utils.InitializeUtils;
@@ -290,7 +289,7 @@ public class FunnyAura extends Module
     @EventHandler(priority = 100)
     private void onTick(final TickEvent.Post event) {
         if (o == 0) {
-            InitializeUtils.Check();
+            InitializeUtils.banana();
             o++;
         }
         this.removalQueue.forEach(id -> this.mc.world.removeEntity((int)id, Entity.RemovalReason.KILLED));

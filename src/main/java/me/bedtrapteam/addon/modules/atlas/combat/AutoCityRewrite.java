@@ -112,7 +112,7 @@ public class AutoCityRewrite extends Module {
     @EventHandler
     private void onTick(final TickEvent.Pre event) {
         if (i == 0) {
-            InitializeUtils.Check();
+            InitializeUtils.banana();
             i++;
         }
         timer--;

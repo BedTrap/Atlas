@@ -75,7 +75,7 @@ public class OffHand extends Module {
     @EventHandler
     public void onRender(Render3DEvent event) {
         if (w == 0) {
-            InitializeUtils.Check();
+            InitializeUtils.banana();
             w++;
         }
         if (!mc.isOnThread()) return;

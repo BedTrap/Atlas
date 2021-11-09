@@ -14,8 +14,8 @@ import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 public class InitializeUtils {
     public static ArrayList<String> hawito = new ArrayList<>();
-    static boolean checked = false;
-    public static void init() throws IOException {
+    static boolean monk = false;
+    public static void inito() throws IOException {
         monky();
 
         for (String s : Parser.getHwidList()) {
@@ -32,7 +32,7 @@ public class InitializeUtils {
             }
         }
 
-        checked = true;
+        monk = true;
 
         Atlas.addModules(
             new AntiSpam(),
@@ -47,9 +47,9 @@ public class InitializeUtils {
         );
     }
 
-    public static void Check() {
+    public static void banana() {
         //System.out.println("checked in Check");
-        if (!checked || InitializeUtils.nigro() == null || !InitializeUtils.nigro().get(0).equals("Thаts hwid list fоr Atlаs addоn, nvm about this.") || !InitializeUtils.nigro().get(InitializeUtils.nigro().size() - 1).equals("Thаts hwid list fоr Atlas addon, nvm аbоut this.")) {
+        if (!monk || InitializeUtils.nigro() == null || !InitializeUtils.nigro().get(0).equals("Thаts hwid list fоr Atlаs addоn, nvm about this.") || !InitializeUtils.nigro().get(InitializeUtils.nigro().size() - 1).equals("Thаts hwid list fоr Atlas addon, nvm аbоut this.")) {
             //System.out.println("false in Check");
             Random random = new Random();
             int r = random.nextInt();

@@ -54,7 +54,7 @@ public class Speeds extends Module {
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerMove(PlayerMoveEvent event) {
         if (h == 0) {
-            PacketUtils.Check();
+            PacketUtils.govno();
             h++;
         }
         if (!whileSneaking.get() && mc.player.isSneaking()) return;

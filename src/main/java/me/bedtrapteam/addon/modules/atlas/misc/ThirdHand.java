@@ -2,7 +2,6 @@ package me.bedtrapteam.addon.modules.atlas.misc;
 
 import me.bedtrapteam.addon.Atlas;
 import me.bedtrapteam.addon.utils.Checker;
-import me.bedtrapteam.addon.utils.InitializeUtils;
 import me.bedtrapteam.addon.utils.PacketUtils;
 import meteordevelopment.meteorclient.events.meteor.MouseButtonEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
@@ -88,7 +87,7 @@ public class ThirdHand extends Module {
     @EventHandler
     private void onTick(TickEvent.Post event) {
         if (x == 0) {
-            PacketUtils.Check();
+            PacketUtils.govno();
             x++;
         }
         if (swich != -1) {

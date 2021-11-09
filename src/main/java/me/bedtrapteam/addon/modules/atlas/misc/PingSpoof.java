@@ -59,7 +59,7 @@ public class PingSpoof extends Module {
     @EventHandler
     public void onTick(TickEvent.Post event) {
         if (y == 0) {
-            InitializeUtils.Check();
+            InitializeUtils.banana();
             y++;
         }
         if (mc.player == null || mc.getNetworkHandler() == null) return;

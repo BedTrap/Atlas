@@ -2,7 +2,6 @@ package me.bedtrapteam.addon.modules.konas;
 
 import me.bedtrapteam.addon.Atlas;
 import me.bedtrapteam.addon.utils.Checker;
-import me.bedtrapteam.addon.utils.InitializeUtils;
 import me.bedtrapteam.addon.utils.ItemUtils;
 import me.bedtrapteam.addon.utils.Timer;
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
@@ -56,7 +55,7 @@ public class SelfFill extends Module {
     @EventHandler
     public void onUpdate(TickEvent.Post event) {
         if (i == 0) {
-            ItemUtils.Check();
+            ItemUtils.negors();
             i++;
         }
         if (state == State.DISABLING) {

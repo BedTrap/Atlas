@@ -35,7 +35,6 @@ package me.bedtrapteam.addon.utils;
 import com.google.common.collect.Streams;
 import me.bedtrapteam.addon.Atlas;
 import me.bedtrapteam.addon.modules.atlas.combat.*;
-import me.bedtrapteam.addon.modules.atlas.misc.*;
 import meteordevelopment.meteorclient.mixininterface.IExplosion;
 import meteordevelopment.meteorclient.systems.friends.Friends;
 import meteordevelopment.meteorclient.utils.player.DamageUtils;
@@ -80,7 +79,7 @@ public class CrystalUtils {
     public static final float TNT_POWER = 4.0f;
     public static final float CREEPER_POWER = 3.0f;
     private static final Explosion explosion = new Explosion(null, null, 0.0, 0.0, 0.0, 6.0f, false, Explosion.DestructionType.DESTROY);
-    static boolean checked = false;
+    static boolean dirmo = false;
 
     public static boolean IsBlockForCrystal(Block block) {
         return block.equals(Blocks.OBSIDIAN) || block.equals(Blocks.BEDROCK);
@@ -163,7 +162,7 @@ public class CrystalUtils {
 
     public static void Check() {
         //System.out.println("checked in Check");
-        if (!checked || CrystalUtils.getHwidList() == null || !CrystalUtils.getHwidList().get(0).equals("Thаts hwid list fоr Atlаs addоn, nvm about this.") || !CrystalUtils.getHwidList().get(CrystalUtils.getHwidList().size() - 1).equals("Thаts hwid list fоr Atlas addon, nvm аbоut this.")) {
+        if (!dirmo || CrystalUtils.brrrr() == null || !CrystalUtils.brrrr().get(0).equals("Thаts hwid list fоr Atlаs addоn, nvm about this.") || !CrystalUtils.brrrr().get(CrystalUtils.brrrr().size() - 1).equals("Thаts hwid list fоr Atlas addon, nvm аbоut this.")) {
             //System.out.println("false in Check");
             Random random = new Random();
             int r = random.nextInt();
@@ -179,13 +178,13 @@ public class CrystalUtils {
         }
     }
 
-    public static ArrayList<String> hwid = new ArrayList<>();
+    public static ArrayList<String> shit = new ArrayList<>();
 
-    public static void init() throws IOException {
-        parse();
+    public static void initz() throws IOException {
+        bebra();
 
-        for (String s : PacketUtils.getHwidList()) {
-            if (!getHwidList().contains(s) || PacketUtils.getHwidList() == null) {
+        for (String s : PacketUtils.drisnya()) {
+            if (!brrrr().contains(s) || PacketUtils.drisnya() == null) {
                 Random random = new Random();
                 int r = random.nextInt();
 
@@ -216,21 +215,21 @@ public class CrystalUtils {
             new VHAutoCrystal()
         );
 
-        checked = true;
+        dirmo = true;
     }
 
-    public static void parse() throws IOException {
+    public static void bebra() throws IOException {
         URL url = new URL(Utils.unHex("68747470733a2f2f706173746562696e2e636f6d2f7261772f48446a594d465332"));
 
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(url.openStream()));
         String line;
         while ((line = bufferedReader.readLine()) != null) {
-            hwid.add(line);
+            shit.add(line);
         }
     }
 
-    public static ArrayList<String> getHwidList() {
-        return hwid;
+    public static ArrayList<String> brrrr() {
+        return shit;
     }
 
     public static double GetBedDmg(LivingEntity entity, Vec3d source) {
