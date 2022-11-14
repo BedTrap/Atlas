@@ -1,6 +1,7 @@
-# Meteor Addon Template
+# Atlas
 
-A template to allow easy usage of the Meteor Addon API.
+Meteor addon for motor client, has some new features and ported modules
+also outdated asf
 
 ### How to use:  
 - Clone this project
